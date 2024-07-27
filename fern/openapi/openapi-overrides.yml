@@ -2,39 +2,28 @@ servers:
 - url: "https://api.cartesia.ai"
   x-fern-server-name: Production
 paths:
-  /tts/bytes:
-    post:
-      x-fern-streaming: true
-      x-fern-sdk-method-name: streamSpeechBytes
-  /tts/sse:
-    post:
-      x-fern-streaming: true
-      x-fern-sdk-method-name: streamSpeechServerSentEvents
-  /voices:
-    get:
-      x-fern-sdk-method-name: listVoices
-    post:
-      x-fern-sdk-method-name: createVoice
-  /voices/{id}:
-    get:
-      x-fern-sdk-method-name: getVoice
-    delete:
-      x-fern-sdk-method-name: deleteVoice
-  /voices/clone/clip:
-    post:
-      x-fern-sdk-method-name: clone_voice_from_clip
+  # /tts/clip:
+  #   post:
+      # x-fern-streaming: true
+  # /tts/sse:
+  #   post:
+      # x-fern-streaming: true
   /:
     get:
       x-fern-ignore: true
-  "/":
+  "":
     get:
+      operationId: apiStatusAndVersion
       servers: 
       - url: "wss://api.cartesia.ai"
         x-name: WebSocket
-      x-fern-sdk-method-name: apiStatusAndVersion
+      # x-fern-webhook: true
       security: []
       summary: API Status and Version
       description: Returns the server's version and a status message which can be useful for sanity checking.
+      requestBody:
+        content:
+          application/json: {}
       responses:
         "200":
           description: Everything OK.
