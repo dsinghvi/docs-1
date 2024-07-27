@@ -1,0 +1,119 @@
+instances:
+  - url: https://cartesia.docs.buildwithfern.com
+title: Cartesia
+logo:
+  light: logo/wordmark-light.svg
+  dark: logo/wordmark-dark.svg
+  height: 28
+css: assets/styles.css
+favicon: logo/icon.png
+colors:
+  accent-primary:
+    dark: "#1d4ed8"
+    light: "#1d4ed8"
+  background: 
+    dark: "#1a202c"
+    light: "#ffffff"
+  header-background: 
+    dark: "#000000"
+    light: "#ffffff"
+  border: 
+    dark: "#ffffff"
+    light: "#000000"
+typography:
+  bodyFont:
+    name: Berkeley
+    paths:
+      - path: assets/berkeley-mono.woff2
+        weight: "400"
+      - path: assets/berkeley-mono-italic.woff2
+        style: italic
+  headingsFont:
+    name: Berkeley
+    path: assets/berkeley-mono-bold.woff2
+navbar-links:
+  - type: secondary
+    text: Homepage
+    url: https://cartesia.ai
+  - type: secondary
+    text: Discord
+    url: https://discord.com/invite/gAbbHgdyQM
+  - type: primary
+    text: Playground
+    url: https://play.cartesia.ai
+tabs:
+  docs: 
+    display-name: Guides
+    slug: guides
+    icon: fa-regular fa-file-alt
+  reference:
+    display-name: API Reference
+    slug: reference
+    icon: fa-regular fa-code
+  changelog:
+    display-name: Changelog
+    icon: fa-regular fa-history
+    changelog: ./openapi/changelog 
+layout:
+  tabs-placement: header
+  searchbar-placement: header
+navigation:
+  - tab: docs
+    layout: 
+      - section: Getting Started
+        contents:
+          - page: Welcome!
+            path: getting-started/welcome.mdx
+          - page: Getting Help
+            path: getting-started/getting-help.mdx
+          - page: Using the API
+            path: getting-started/using-the-api.mdx
+          - page: Available Models
+            path: getting-started/available-models.mdx
+      - section: Concepts
+        contents:
+          - page: Embeddings and Voice Mixing
+            path: concepts/embeddings-and-voice-mixing.mdx
+      - section: User Guides
+        contents:
+          - page: Custom Pronunciations
+            path: user-guides/custom-pronunciation-guide.mdx
+          - page: Improving Speech Quality
+            path: user-guides/improving-speech-quality.mdx
+          - page: Controlling Speed & Emotion
+            path: user-guides/voice-control.mdx
+          - page: Twilio <> Cartesia
+            path: user-guides/cartesia-twilio.mdx
+      - section: Client Libraries
+        contents:
+          - page: JavaScript/TypeScript
+            path: client-libraries/javascript-typescript.mdx
+          - page: Python
+            path: client-libraries/python.mdx
+      - section: Migration Guides
+        contents:
+          - page: Migrating to the Stable API
+            path: migration-guides/migrating-to-the-stable-api.mdx
+  - tab: reference
+    layout: 
+      - api: API Reference
+        flattened: true
+        layout: 
+          - section: Streaming
+            contents:
+              - page: Stream Speech (WebSocket)
+                path: api-reference/endpoints/stream-speech-websocket.mdx
+                icon: plug
+              - POST /tts/bytes
+              - POST /tts/sse
+          - section: REST
+            contents:
+              - GET /voices
+              - POST /voices
+              - GET /voices/{id}
+              - DELETE /voices/{id}
+              - POST /voices/clone/clip
+          - section: Webhooks
+            contents: 
+              - GET /
+  - tab: changelog

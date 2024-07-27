@@ -1,0 +1,18 @@
+div, a, button {
+  border-radius: .125rem !important;
+}
+
+.fern-card.interactive {
+  transition: none !important;
+  box-shadow: 8px 4px 0 2px !important;
+}
+
+:hover {
+  border-color: unset !important;
+}
+
+.fern-button:not(.disabled).outlined.primary {
+  color: white !important;
+  --tw-ring-color: #1d4ed8 !important;
+  background: #1d4ed8 !important;
+}
