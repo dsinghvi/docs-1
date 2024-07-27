@@ -115,4 +115,5 @@ navigation:
               - GET /voices/{id}/embedding
               - POST /voices/clone/clip
               - POST /voices/clone/url
+              - GET /
   - tab: changelog

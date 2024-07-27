@@ -12,18 +12,14 @@ paths:
     get:
       x-fern-ignore: true
   "":
-    get:
+    post:
       operationId: apiStatusAndVersion
       servers: 
       - url: "wss://api.cartesia.ai"
         x-name: WebSocket
-      # x-fern-webhook: true
       security: []
       summary: API Status and Version
       description: Returns the server's version and a status message which can be useful for sanity checking.
-      requestBody:
-        content:
-          application/json: {}
       responses:
         "200":
           description: Everything OK.
