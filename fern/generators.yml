@@ -3,9 +3,6 @@ api:
     overrides: ./openapi/openapi-overrides.yml
     settings:
       use-title: false
-  - path: ./openapi/clip-streaming-asyncapi.yml
-    settings:
-      use-title: false
-  - path: ./openapi/sse-streaming-asyncapi.yml
+  - path: ./openapi/asyncapi.yml
     settings:
       use-title: false

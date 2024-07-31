@@ -1,0 +1,173 @@
+---
+info:
+  title: Hume AI Empathic Voice Interface (EVI)
+  version: 0.1.313
+  description: Chat with Empathic Voice Interface (EVI).
+x-topics: []
+servers:
+  prod:
+    url: wss://api.hume.ai/v0/evi
+    protocol: wss
+channels:
+  /tts/websocket:
+    description: Generate audio from a transcript using a given voice and model. The audio is returned as a binary clip, i.e. this endpoint streams out raw bytes.
+    bindings:
+      ws: 
+        query:
+          required: 
+            - cartesia_version
+            - api_key
+          properties: 
+            api_key: 
+              type: string
+              description: Your API key.
+            cartesia_version: 
+              type: string
+              description: The version of the Cartesia model to use.
+              example: "1.0.0"
+    publish:
+      message:
+        oneOf:
+        - "$ref": "#/components/messages/TTSRequest"
+        - "$ref": "#/components/messages/StreamInputRequest"
+    subscribe:
+      message:
+        oneOf:
+          - $ref: "#/components/messages/VoiceEmbeddingResponse"
+          - $ref: "#/components/messages/Error"
+components:
+  messages:
+    TTSRequest:
+      name: TTSRequest
+      payload:
+        "$ref": "#/components/schemas/TTSRequest"
+    StreamInputRequest:
+      name: SessionSettings
+      payload:
+        "$ref": "#/components/schemas/StreamInputRequest"
+    VoiceEmbeddingResponse:
+      name: UserInput
+      payload:
+        "$ref": "#/components/schemas/VoiceEmbeddingResponse"
+    Error:
+      name: Error
+      payload:
+        "$ref": "#/components/schemas/Error"
+  schemas:
+    TTSRequest:
+      type: object
+      additionalProperties: false
+      properties: 
+        context_id: 
+          type: string
+          example: "happy-monkeys-fly"
+        model_id:
+          title: Model ID
+          type: string
+          example: upbeat-moon
+        transcript:
+          title: Transcript
+          type: string
+          example: "Hello, world! I'm generating audio on Cartesia."
+        duration:
+          title: Duration
+          description: The maximum duration of the audio in seconds.
+          type: integer
+        voice:
+          title: Voice
+          description: The voice to use for the speech. Can be either an ID or an embedding, specified by the `mode` field.
+          oneOf:
+            - type: object
+              properties:
+                mode:
+                  type: string
+                  enum: [id]
+                id:
+                  type: string
+            - type: object
+              properties:
+                mode:
+                  type: string
+                  enum: [embedding]
+                embedding:
+                  type: array
+                  items: 
+                    type: number
+        output_format:
+          title: Output Format
+          type: object
+          required: [container, encoding, sample_rate]
+          properties:
+            container:
+              type: string
+              enum: ["raw"]
+            encoding:
+              type: string
+              enum: ["pcm_s16le", "pcm_f32le", "pcm_mulaw", "pcm_alaw"]
+            sample_rate:
+              type: integer
+              enum: [8000, 16000, 22050, 24000, 44100]
+
+    StreamInputRequest:
+      type: object
+      required:
+        - transcript
+        - continue
+        - context_id
+      properties:
+        transcript:
+          type: string
+          example: "Hello, Sonic!"
+        continue:
+          type: boolean
+          example: true
+        context_id:
+          type: string
+          example: "happy-monkeys-fly"
+
+    Error:
+      name: Error Description
+      type: string
+      example: error in voice
+
+    VoiceEmbeddingResponse:
+      name: Voice Embedding
+      properties:
+        embedding:
+          type: array
+          items: 
+            type: number
+      type: object
+      required:
+        - embedding
+    
+    Voice:
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        is_public:
+          type: boolean
+        name:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+        embedding:
+          type: array
+          items:
+            type: number
+            
+      required:
+        - id
+        - user_id
+        - is_public
+        - name
+        - description
+        - created_at
+        - embedding
+
+asyncapi: 2.6.0
