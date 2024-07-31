@@ -25,6 +25,7 @@ channels:
               type: string
               description: The version of the Cartesia model to use.
               example: "1.0.0"
+              default: "2024-06-10" 
     publish:
       message:
         oneOf:

@@ -1,6 +1,12 @@
 servers:
 - url: "https://api.cartesia.ai"
   x-fern-server-name: Production
+
+x-fern-global-headers:
+  - header: Cartesia-Version
+    name: cartesia_version
+    type: literal<"2024-06-10">
+
 paths:
   /tts/clip:
     post:
