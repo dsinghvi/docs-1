@@ -117,4 +117,5 @@ navigation:
               - GET /voices/{id}/embedding
               - POST /voices/clone/clip
               - POST /voices/clone/url
+              - GET https://api.cartesia.ai
   - tab: changelog

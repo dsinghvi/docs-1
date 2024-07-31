@@ -16,3 +16,7 @@ div, a, button {
   --tw-ring-color: #1d4ed8 !important;
   background: #1d4ed8 !important;
 }
+
+.fern-button:not(.disabled).outlined.primary .fa-icon {
+  background-color: white !important;
+}

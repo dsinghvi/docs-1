@@ -29,8 +29,8 @@ channels:
       message: 
         oneOf: 
           - $ref: "#/components/messages/JSONChunkResponse"
-          # - $ref: "#/components/messages/JSONDoneResponse"
-          # - $ref: "#/components/messages/JSONErrorResponse"
+          - $ref: "#/components/messages/JSONDoneResponse"
+          - $ref: "#/components/messages/JSONErrorResponse"
         discriminator:
           propertyName: status_code
 components:
