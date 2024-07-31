@@ -1,5 +1,11 @@
 api:
-  path: ./openapi/openapi.yml
-  overrides: ./openapi/openapi-overrides.yml
-  settings:
-    use-title: false
+  - path: ./openapi/openapi.yml
+    overrides: ./openapi/openapi-overrides.yml
+    settings:
+      use-title: false
+  - path: ./openapi/clip-streaming-asyncapi.yml
+    settings:
+      use-title: false
+  - path: ./openapi/sse-streaming-asyncapi.yml
+    settings:
+      use-title: false

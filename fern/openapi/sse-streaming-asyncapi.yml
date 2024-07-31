@@ -1,0 +1,249 @@
+asyncapi: 2.2.0
+info:
+  title: Cartesia AI Streaming API
+  version: "0.3.0"
+  description: >
+    The streaming API provides access to Cartesia models through secure WebSocket connections. You can build real-time applications by running continuous inference on streams of audio, video, and text data.
+servers: 
+  prod:
+    url: "wss://api.cartesia.ai"
+    protocol: wss
+channels: 
+  /tts/sse:
+    summary: Stream Speech (Server-Sent Events)
+    bindings:
+      ws: 
+        headers:
+          required: 
+            - cartesia_version
+          properties: 
+            cartesia_version: 
+              type: string
+              description: The version of the Cartesia model to use.
+              example: "1.0.0"
+    publish: 
+      message: 
+        oneOf: 
+          - $ref: "#/components/messages/TTSRequest"
+    subscribe: 
+      message: 
+        oneOf: 
+          - $ref: "#/components/messages/JSONChunkResponse"
+          # - $ref: "#/components/messages/JSONDoneResponse"
+          # - $ref: "#/components/messages/JSONErrorResponse"
+        discriminator:
+          propertyName: status_code
+components:
+  messages:
+    TTSRequest:
+      name: TTS Request
+      payload:
+        type: object
+        additionalProperties: false
+        properties: 
+          model_id:
+            title: Model ID
+            type: string
+            example: upbeat-moon
+          transcript:
+            title: Transcript
+            type: string
+            example: "Hello, world! I'm generating audio on Cartesia."
+          duration:
+            title: Duration
+            description: The maximum duration of the audio in seconds.
+            type: integer
+          voice:
+            title: Voice
+            description: The voice to use for the speech. Can be either an ID or an embedding, specified by the `mode` field.
+            oneOf:
+              - type: object
+                properties:
+                  mode:
+                    type: string
+                    enum: [id]
+                  id:
+                    "$ref": "#/components/schemas/VoiceId"
+              - type: object
+                properties:
+                  mode:
+                    type: string
+                    enum: [embedding]
+                  embedding:
+                    "$ref": "#/components/schemas/VoiceEmbedding"
+            discriminator:
+              propertyName: mode
+          output_format:
+            title: Output Format
+            type: object
+            required: [container, encoding, sample_rate]
+            properties:
+              container:
+                type: string
+                enum: ["raw"]
+              encoding:
+                type: string
+                enum: ["pcm_s16le", "pcm_f32le", "pcm_mulaw", "pcm_alaw"]
+              sample_rate:
+                type: integer
+                enum: [8000, 16000, 22050, 24000, 44100]
+
+    Error:
+      name: Error Description
+      payload:
+        type: string
+        example: error in voice
+
+    VoiceEmbeddingResponse:
+      name: Voice Embedding
+      payload:
+        properties:
+          embedding:
+            "$ref": "#/components/schemas/VoiceEmbedding"
+        type: object
+        required:
+          - embedding
+    
+    JSONChunkResponse:
+      name: JSON Chunk Response
+      payload: 
+        properties: 
+          allOf:
+            - "$ref": "#/components/schemas/JSONBaseResponse"
+            - type: object
+              properties:
+                status_code: 
+                  title: Status Code
+                  type: integer
+                  description: HTTP status code to allow for error handling. This is for errors encountered while streaming the response.
+                  enum: [206]
+                done: 
+                  title: Done
+                  type: boolean
+                  description: Whether the model has finished generating audio.
+                  enum: [false]
+                data:
+                  title: Data
+                  type: string
+                  format: byte
+                  description: Binary audio data encoded as base64. The underlying bytes will be in the requested output format.
+                step_time:
+                  title: Step Time
+                  type: integer
+                  description: The time in milliseconds that the model took to generate this chunk of audio.
+
+    JSONDoneResponse:
+      name: JSON Done Response
+      payload: 
+        properties:
+          allOf:
+            - "$ref": "#/components/schemas/JSONBaseResponse"
+            - type: object
+              properties:
+                status_code: 
+                  title: Status Code
+                  type: integer
+                  description: HTTP status code to allow for error handling. This is for errors encountered while streaming the response.
+                  enum: [200]
+                done: 
+                  title: Done
+                  type: boolean
+                  description: Whether the model has finished generating audio.
+                  enum: [true]
+
+    JSONErrorResponse:
+      name: JSON Error Response
+      payload: 
+        properties:
+          allOf:
+            - "$ref": "#/components/schemas/JSONBaseResponse"
+            - type: object
+              properties:
+                status_code: 
+                  title: Status Code
+                  type: integer
+                  description: HTTP status code to allow for error handling. This is for errors encountered while streaming the response.
+                  minimum: 400
+                  maximum: 599
+                done: 
+                  title: Done
+                  type: boolean
+                  description: Whether the model has finished generating audio.
+                  enum: [true]
+                error:
+                  title: Error
+                  type: string
+                  description: A human-readable error message.
+
+          
+  schemas:
+    Timestamp:
+      title: Timestamp
+      type: string
+
+    Voice:
+      type: object
+      properties:
+        id:
+          "$ref": "#/components/schemas/VoiceId"
+        user_id:
+          type: string
+        is_public:
+          type: boolean
+        name:
+          "$ref": "#/components/schemas/VoiceName"
+        description:
+          "$ref": "#/components/schemas/VoiceDescription"
+        created_at:
+          "$ref": "#/components/schemas/Timestamp"
+        embedding:
+          "$ref": "#/components/schemas/VoiceEmbedding"
+      required:
+        - id
+        - user_id
+        - is_public
+        - name
+        - description
+        - created_at
+        - embedding
+
+    VoiceDescription:
+      title: Voice Description
+      type: string
+      example: "A deep, rich, male voice with an Indian accent."
+
+    VoiceEmbedding:
+      title: Voice Embedding
+      items:
+        type: number
+      type: array
+
+    VoiceId:
+      title: Voice ID
+      type: string
+      example: "a0e99841-438c-4a64-b679-ae501e7d6091"
+
+    VoiceName:
+      title: VoiceName
+      type: string
+      example: "Barbershop Man"
+
+    Clip:
+      title: Clip
+      type: string
+      format: binary
+
+    JSONBaseResponse:
+      title: JSON Base Response
+      type: object
+      properties:
+        status_code: &statusCode
+          title: Status Code
+          type: integer
+          description: HTTP status code to allow for error handling. This is for errors encountered while streaming the response.
+        done: &done
+          title: Done
+          type: boolean
+          description: Whether the model has finished generating audio.
+
+    

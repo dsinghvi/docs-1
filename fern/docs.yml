@@ -104,8 +104,10 @@ navigation:
               - page: Stream Speech (WebSocket)
                 path: api-reference/endpoints/stream-speech-websocket.mdx
                 icon: plug
-              - POST /tts/clip
-              - POST /tts/sse
+              - endpoint: WSS wss://api.cartesia.ai/tts/clip
+                title: Stream Speech (Clip)
+              - endpoint: WSS wss://api.cartesia.ai/tts/sse
+                title: Stream Speech (SSE)
           - section: REST
             contents:
               - GET /voices
@@ -115,5 +117,4 @@ navigation:
               - GET /voices/{id}/embedding
               - POST /voices/clone/clip
               - POST /voices/clone/url
-              - GET /
   - tab: changelog
