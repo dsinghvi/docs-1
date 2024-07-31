@@ -7,7 +7,7 @@ paths:
       x-fern-ignore: true
   /tts/sse:
     post:
-      x-fern-ignore: true
+      x-fern-ignore: true 
   /:
     get:
       x-fern-ignore: true
