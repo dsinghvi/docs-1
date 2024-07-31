@@ -108,72 +108,61 @@ components:
       name: JSON Chunk Response
       payload: 
         properties: 
-          allOf:
-            - "$ref": "#/components/schemas/JSONBaseResponse"
-            - type: object
-              properties:
-                status_code: 
-                  title: Status Code
-                  type: integer
-                  description: HTTP status code to allow for error handling. This is for errors encountered while streaming the response.
-                  enum: [206]
-                done: 
-                  title: Done
-                  type: boolean
-                  description: Whether the model has finished generating audio.
-                  enum: [false]
-                data:
-                  title: Data
-                  type: string
-                  format: byte
-                  description: Binary audio data encoded as base64. The underlying bytes will be in the requested output format.
-                step_time:
-                  title: Step Time
-                  type: integer
-                  description: The time in milliseconds that the model took to generate this chunk of audio.
+          status_code: 
+            title: Status Code
+            type: integer
+            description: HTTP status code to allow for error handling. This is for errors encountered while streaming the response.
+            enum: [206]
+          done: 
+            title: Done
+            type: boolean
+            description: Whether the model has finished generating audio.
+            enum: [false]
+          data:
+            title: Data
+            type: string
+            format: byte
+            description: Binary audio data encoded as base64. The underlying bytes will be in the requested output format.
+          step_time:
+            title: Step Time
+            type: integer
+            description: The time in milliseconds that the model took to generate this chunk of audio.
+                
 
     JSONDoneResponse:
       name: JSON Done Response
       payload: 
         properties:
-          allOf:
-            - "$ref": "#/components/schemas/JSONBaseResponse"
-            - type: object
-              properties:
-                status_code: 
-                  title: Status Code
-                  type: integer
-                  description: HTTP status code to allow for error handling. This is for errors encountered while streaming the response.
-                  enum: [200]
-                done: 
-                  title: Done
-                  type: boolean
-                  description: Whether the model has finished generating audio.
-                  enum: [true]
+          status_code: 
+            title: Status Code
+            type: integer
+            description: HTTP status code to allow for error handling. This is for errors encountered while streaming the response.
+            enum: [200]
+          done: 
+            title: Done
+            type: boolean
+            description: Whether the model has finished generating audio.
+            enum: [true]
 
     JSONErrorResponse:
       name: JSON Error Response
       payload: 
         properties:
-          allOf:
-            - "$ref": "#/components/schemas/JSONBaseResponse"
-            - type: object
-              properties:
-                status_code: 
-                  title: Status Code
-                  type: integer
-                  description: HTTP status code to allow for error handling. This is for errors encountered while streaming the response.
-                  minimum: 400
-                  maximum: 599
-                done: 
-                  title: Done
-                  type: boolean
-                  description: Whether the model has finished generating audio.
-                  enum: [true]
-                error:
-                  title: Error
-                  type: string
-                  description: A human-readable error message.
+          status_code: 
+            title: Status Code
+            type: integer
+            description: HTTP status code to allow for error handling. This is for errors encountered while streaming the response.
+            minimum: 400
+            maximum: 599
+          done: 
+            title: Done
+            type: boolean
+            description: Whether the model has finished generating audio.
+            enum: [true]
+          error:
+            title: Error
+            type: string
+            description: A human-readable error message.
 
           
   schemas:
