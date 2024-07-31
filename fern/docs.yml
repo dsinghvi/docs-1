@@ -101,9 +101,9 @@ navigation:
         layout: 
           - section: Streaming
             contents:
-              - page: Stream Speech (WebSocket)
-                path: api-reference/endpoints/stream-speech-websocket.mdx
-                icon: plug
+              # - page: Stream Speech (WebSocket)
+              #   path: api-reference/endpoints/stream-speech-websocket.mdx
+              #   icon: plug
               - endpoint: WSS wss://api.cartesia.ai/tts/clip
                 title: Stream Speech (Clip)
               - endpoint: WSS wss://api.cartesia.ai/tts/sse
