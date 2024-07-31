@@ -4,10 +4,23 @@ servers:
 paths:
   /tts/clip:
     post:
-      x-fern-ignore: true
+      x-fern-sdk-group-name: Streaming
+      x-fern-sdk-method-name: clip
   /tts/sse:
     post:
-      x-fern-ignore: true 
+      x-fern-sdk-group-name: Streaming
+      x-fern-sdk-method-name: convert
+      x-fern-streaming: true
+      responses:
+        "200":
+          description: A stream of audio data.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/JSONChunkResponse"
+                  - $ref: "#/components/schemas/JSONDoneResponse"
+                  - $ref: "#/components/schemas/JSONErrorResponse"      
   /:
     get:
       x-fern-ignore: true
