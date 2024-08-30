@@ -1,5 +1,6 @@
 instances:
   - url: https://cartesia.docs.buildwithfern.com
+    custom_domain: docs.cartesia.ai
 title: Cartesia
 logo:
   light: logo/new-logo-light.svg
@@ -11,13 +12,13 @@ colors:
   accent-primary:
     dark: "#ffffff"
     light: "#000000"
-  background: 
+  background:
     dark: "#1a202c"
     light: "#fafafa"
-  header-background: 
+  header-background:
     dark: "#000000"
     light: "#ffffff"
-  # border: 
+  # border:
   #   dark: "#ffffff"
   #   light: "#c6c4bc"
 # typography:
@@ -31,20 +32,20 @@ colors:
 #         style: italic
 #   headingsFont:
 #     name: TiempoText
-#     paths: 
+#     paths:
 #       - path: assets/Tiempos-Text-Bold.woff2
 #         weight: "500"
 #       - path: assets/Tiempos-Text-Bold.woff2
 #         weight: "500"
 #         style: italic
-  # codeFont:
-  #   name: BerkeleyMono
-  #   paths:
-  #     - path: assets/berkeley-mono.woff2
-  #       weight: "600"
-  #     - path: assets/berkeley-mono-italic.woff2
-  #       weight: "600"
-  #       style: italic
+# codeFont:
+#   name: BerkeleyMono
+#   paths:
+#     - path: assets/berkeley-mono.woff2
+#       weight: "600"
+#     - path: assets/berkeley-mono-italic.woff2
+#       weight: "600"
+#       style: italic
 navbar-links:
   - type: minimal
     text: Homepage
@@ -56,7 +57,7 @@ navbar-links:
     text: Playground
     url: https://play.cartesia.ai
 tabs:
-  docs: 
+  docs:
     display-name: Guides
     slug: guides
     icon: fa-regular fa-file-alt
@@ -69,7 +70,7 @@ layout:
   searchbar-placement: header
 navigation:
   - tab: docs
-    layout: 
+    layout:
       - section: Getting Started
         contents:
           - page: Welcome!
@@ -109,11 +110,11 @@ navigation:
           - page: Migrating to the Stable API
             path: migration-guides/migrating-to-the-stable-api.mdx
   - tab: reference
-    layout: 
+    layout:
       - api: WebSocket
         api-name: wss
         flattened: true
-        layout: 
+        layout:
           - stream-speech:
               title: WebSocket
               contents:
@@ -124,7 +125,7 @@ navigation:
         api-name: endpoints
         paginated: true
         flattened: true
-        layout: 
+        layout:
           - section: REST
             contents:
               - POST /tts/bytes
@@ -138,4 +139,3 @@ navigation:
               - GET /voices/{id}
               - GET /voices
               - GET https://api.cartesia.ai
-              
