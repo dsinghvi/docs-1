@@ -13,39 +13,11 @@ colors:
     dark: "#ffffff"
     light: "#000000"
   background:
-    dark: "#1a202c"
-    light: "#fafafa"
+    dark: "#000000"
+    light: "#ffffff"
   header-background:
     dark: "#000000"
     light: "#ffffff"
-  # border:
-  #   dark: "#ffffff"
-  #   light: "#c6c4bc"
-# typography:
-#   bodyFont:
-#     name: TiempoText
-#     paths:
-#       - path: assets/Tiempos-Text.woff2
-#         weight: "400"
-#       - path: assets/Tiempos-Text-Italic.woff2
-#         weight: "400"
-#         style: italic
-#   headingsFont:
-#     name: TiempoText
-#     paths:
-#       - path: assets/Tiempos-Text-Bold.woff2
-#         weight: "500"
-#       - path: assets/Tiempos-Text-Bold.woff2
-#         weight: "500"
-#         style: italic
-# codeFont:
-#   name: BerkeleyMono
-#   paths:
-#     - path: assets/berkeley-mono.woff2
-#       weight: "600"
-#     - path: assets/berkeley-mono-italic.woff2
-#       weight: "600"
-#       style: italic
 navbar-links:
   - type: minimal
     text: Homepage
