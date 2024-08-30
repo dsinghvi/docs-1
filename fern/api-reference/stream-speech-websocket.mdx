@@ -1,0 +1,126 @@
+---
+title: Stream Speech (WebSocket)
+subtitle: >-
+  Connect to Cartesia over a WebSocket and generate speech from a transcript
+  using a given voice and model. The audio is streamed out as Base64-encoded raw
+  bytes.
+---
+
+
+<Tip>
+You can try out WebSockets using `wscat`. If you have Node installed, just run:
+</Tip>
+
+```sh In Your Shell
+npx wscat -c "wss://api.cartesia.ai/tts/websocket?api_key=<YOUR_API_KEY>&cartesia_version=2024-06-10"
+```
+
+`GET /tts/websocket?api_key=<YOUR_API_KEY>&cartesia_version=<API_VERSION>`
+
+Initiate a bidirectional WebSocket connection. The connection supports multiplexing, so you can send multiple requests and receive the corresponding responses in parallel. The connection times out 5 minutes after the last message you send.
+
+## WebSocket Request
+
+Send a JSON-encoded message on the WebSocket. The schema of said message should be identical to the Server-Sent Events request body, except that you must additionally specify a `context_id` field containing a unique identifier for the request. (You can use a UUIDv4 or a [human ID](https://www.npmjs.com/package/human-id).)
+
+```json WebSocket Request
+{
+  "context_id": "happy-monkeys-fly",
+  "model_id": "sonic-english",
+  "transcript": "Hello, world! I'\''m generating audio on Cartesia.",
+  "duration": 180,
+  "voice": {
+    "mode": "id",
+    "id": "a0e99841-438c-4a64-b679-ae501e7d6091",
+    "__experimental_controls": {
+      "speed": "normal",
+      "emotion": ["positivity:highest", "curiosity"]
+    }
+  },
+  "output_format": {
+    "container": "raw",
+    "encoding": "pcm_s16le",
+    "sample_rate": 8000
+  },
+  "language": "en",
+  "add_timestamps": false
+}
+```
+
+## WebSocket Responses
+
+After you send a message body on the WebSocket, the API will respond with a series of JSON chunks with the same schema as the data in Server-Sent Events responses.
+
+```json WebSocket Response
+{
+  "status_code": 206,
+  "done": false,
+  "type": "chunk",
+  "data": "aSDinaTvuI8gbWludGxpZnk=",
+  "step_time": 123,
+  "context_id": "happy-monkeys-fly"
+}
+```
+
+If `add_timestamps` is set to `true`, we will also return messages of the following form in addition to the audio chunks and done message:
+
+```json WebSocket Response
+{
+  "status_code": 206,
+  "done": false,
+  "context_id": "happy-monkeys-fly",
+  "type": "timestamps",
+  "word_timestamps": {
+    "words": ["Hello"],
+    "start": [0.0],
+    "end": [1.0]
+  }
+}
+```
+
+## Input Streaming with Contexts
+
+> In many real time use cases, you don't have your transcripts available upfront—like when you're generating them using an LLM. For these cases, Sonic supports input streaming.
+
+The context IDs you pass to the Cartesia API identify speech contexts. Contexts maintain prosody between their inputs—so you can send a transcript in multiple parts and receive seamless speech in return.
+
+To stream in inputs on a context, just pass a `continue` flag (set to `true`) for every input that you expect will be followed by more inputs. (By default, this flag is set to `false`.)
+
+To finish a context, just set `continue` to `false`. If you do not know the last transcript in advance, you can send an input with an empty transcript and `continue` set to `false`.
+
+<Note>Contexts automatically expire 5 seconds after the last input that was streamed in, and attempting to send another input on the same context ID will implicitly create a new context.</Note>
+
+<ParamField body="continue" type="boolean" default={false}>
+    Whether this input may be followed by more inputs.
+</ParamField>
+
+### Input Format
+
+1. Inputs on the same context must keep all fields except `transcript`, `continue`, and `duration` the same.
+2. Transcripts are concatenated verbatim, so make sure they form a valid transcript when joined together. Make sure to include any spaces between words or punctuations as necessary. For example, in languages with spaces, you should include a space at the end of the preceding transcript, e.g. transcript 1 is `Thanks for coming, ` and transcript 2 is `it was great to see you.`
+3. It's important to buffer the first request transcript to at least 3 or 4 words for best performance.
+
+### Example
+
+Let's say you're trying to generate speech for "Hello, Sonic! I'm streaming inputs." You should stream in the following inputs (repeated fields omitted for brevity). Note: all other fields (e.g. `model_id`, `language`) are required and should be passed unchanged between requests with input streaming.
+
+```json Input Streaming
+{"transcript": "Hello, Sonic!", "continue": true, "context_id": "happy-monkeys-fly"}
+{"transcript": " I'm streaming ", "continue": true, "context_id": "happy-monkeys-fly"}
+{"transcript": "inputs.", "continue": false, "context_id": "happy-monkeys-fly"}
+```
+
+If you don't know the last transcript in advance, you can send an input with an empty transcript and `continue` set to `false`:
+
+```json Input Streaming
+{"transcript": "Hello, Sonic!", "continue": true, "context_id": "happy-monkeys-fly"}
+{"transcript": " I'm streaming ", "continue": true, "context_id": "happy-monkeys-fly"}
+{"transcript": "inputs.", "continue": true, "context_id": "happy-monkeys-fly"}
+{"transcript": "", "continue": false, "context_id": "happy-monkeys-fly"}
+```
+
+### Output
+
+You will only receive `done: true` after outputs for the entire context have been returned.
+
+Outputs for a given context will always be in order of the inputs you streamed in. (That is, if you send input A and then input B on a context, you will first receive the chunks corresponding to input A, and then the chunks corresponding to input B.)

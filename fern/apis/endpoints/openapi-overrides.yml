@@ -1,0 +1,30 @@
+servers:
+- url: "https://api.cartesia.ai"
+  x-fern-server-name: Production
+
+paths:  
+  /:
+    get:
+      x-fern-ignore: true
+  "":
+    get:
+      operationId: apiStatusAndVersion
+      security: []
+      summary: API Status and Version
+      description: Returns the server's version and a status message which can be useful for sanity checking.
+      responses:
+        "200":
+          description: Everything OK.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    title: version
+                  status:
+                    type: boolean
+                    title: ok
+        default:
+          $ref: "#/components/responses/Error"

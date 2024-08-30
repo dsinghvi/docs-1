@@ -1,0 +1,141 @@
+instances:
+  - url: https://cartesia.docs.buildwithfern.com
+title: Cartesia
+logo:
+  light: logo/new-logo-light.svg
+  dark: logo/new-logo-dark.svg
+  height: 28
+css: assets/styles.css
+favicon: logo/icon.png
+colors:
+  accent-primary:
+    dark: "#ffffff"
+    light: "#000000"
+  background: 
+    dark: "#1a202c"
+    light: "#fafafa"
+  header-background: 
+    dark: "#000000"
+    light: "#ffffff"
+  # border: 
+  #   dark: "#ffffff"
+  #   light: "#c6c4bc"
+# typography:
+#   bodyFont:
+#     name: TiempoText
+#     paths:
+#       - path: assets/Tiempos-Text.woff2
+#         weight: "400"
+#       - path: assets/Tiempos-Text-Italic.woff2
+#         weight: "400"
+#         style: italic
+#   headingsFont:
+#     name: TiempoText
+#     paths: 
+#       - path: assets/Tiempos-Text-Bold.woff2
+#         weight: "500"
+#       - path: assets/Tiempos-Text-Bold.woff2
+#         weight: "500"
+#         style: italic
+  # codeFont:
+  #   name: BerkeleyMono
+  #   paths:
+  #     - path: assets/berkeley-mono.woff2
+  #       weight: "600"
+  #     - path: assets/berkeley-mono-italic.woff2
+  #       weight: "600"
+  #       style: italic
+navbar-links:
+  - type: minimal
+    text: Homepage
+    url: https://cartesia.ai
+  - type: minimal
+    text: Discord
+    url: https://discord.com/invite/gAbbHgdyQM
+  - type: filled
+    text: Playground
+    url: https://play.cartesia.ai
+tabs:
+  docs: 
+    display-name: Guides
+    slug: guides
+    icon: fa-regular fa-file-alt
+  reference:
+    display-name: API Reference
+    slug: reference
+    icon: fa-regular fa-code
+layout:
+  tabs-placement: header
+  searchbar-placement: header
+navigation:
+  - tab: docs
+    layout: 
+      - section: Getting Started
+        contents:
+          - page: Welcome!
+            path: getting-started/welcome.mdx
+          - page: Getting Help
+            path: getting-started/getting-help.mdx
+          - page: Using the API
+            path: getting-started/using-the-api.mdx
+          - page: Available Models
+            path: getting-started/available-models.mdx
+          - page: Dev Quickstart
+            path: getting-started/dev-quickstart.mdx
+      - section: Concepts
+        contents:
+          - page: Embeddings and Voice Mixing
+            path: concepts/embeddings-and-voice-mixing.mdx
+      - section: User Guides
+        contents:
+          - page: Custom Pronunciations
+            path: user-guides/custom-pronunciation-guide.mdx
+          - page: Improving Speech Quality
+            path: user-guides/improving-speech-quality.mdx
+          - page: Voice Cloning Guide
+            path: user-guides/voice-cloning.mdx
+          - page: Controlling Speed & Emotion
+            path: user-guides/voice-control.mdx
+          - page: Twilio <> Cartesia
+            path: user-guides/cartesia-twilio.mdx
+      - section: Client Libraries
+        contents:
+          - page: JavaScript/TypeScript
+            path: client-libraries/javascript-typescript.mdx
+          - page: Python
+            path: client-libraries/python.mdx
+      - section: Migration Guides
+        contents:
+          - page: Migrating to the Stable API
+            path: migration-guides/migrating-to-the-stable-api.mdx
+  - tab: reference
+    layout: 
+      - api: WebSocket
+        api-name: wss
+        flattened: true
+        layout: 
+          - stream-speech:
+              title: WebSocket
+              contents:
+                - WSS /tts/websocket
+                - page: Working with WebSockets
+                  path: api-reference/stream-speech-websocket.mdx
+      - api: API Reference
+        api-name: endpoints
+        paginated: true
+        flattened: true
+        layout: 
+          - section: REST
+            contents:
+              - POST /tts/bytes
+              - POST /tts/sse
+              - POST /voices/clone/clip
+              - POST /voices/mix
+              - POST /voices/localize
+              - POST /voices
+              - DELETE /voices/{id}
+              - PATCH /voices/{id}
+              - GET /voices/{id}
+              - GET /voices
+              - GET https://api.cartesia.ai
+              
