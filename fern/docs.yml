@@ -1,6 +1,6 @@
 instances:
   - url: https://cartesia.docs.buildwithfern.com
-    custom_domain: docs.cartesia.ai
+    custom-domain: docs.cartesia.ai
 title: Cartesia
 logo:
   light: logo/new-logo-light.svg
