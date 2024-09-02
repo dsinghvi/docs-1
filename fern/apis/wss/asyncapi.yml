@@ -18,14 +18,14 @@ channels:
       ws: 
         query:
           required: 
-            - Cartesia-Version
-            - API-Key
+            - cartesia_version
+            - api_key
           properties: 
-            API-Key: 
+            api_key: 
               required: true
               type: string
               description: Your API key.
-            Cartesia-Version: 
+            cartesia_version: 
               required: true
               type: string
               description: The version of the Cartesia model to use.
