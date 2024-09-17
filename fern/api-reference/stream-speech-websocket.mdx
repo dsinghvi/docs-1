@@ -63,7 +63,6 @@ When you send a cancel request:
 
 1. It will only halt requests that have not begun generating a response yet.
 2. Any currently generating request will continue sending responses until completion.
-3. Subsequent requests in the queue that haven't begun responding with chunks will be canceled and won't produce any responses.
 
 <Note>
 The `context_id` in the cancel request should match the `context_id` of the request you want to cancel.
