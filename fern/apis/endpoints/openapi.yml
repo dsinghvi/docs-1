@@ -311,6 +311,7 @@ components:
               transcript:
                 title: Transcript
                 type: string
+                description: A transcript for the generation. Should not be empty and should not be only puncutation.
                 example: "Hello, world! I'm generating audio on Cartesia."
               duration:
                 title: Duration
@@ -635,6 +636,7 @@ components:
               transcript:
                 title: Transcript
                 type: string
+                description: A transcript for the generation. Should not be empty and should not be only puncutation.
                 example: "Hello, world! I'm generating audio on Cartesia."
               duration:
                 title: Duration

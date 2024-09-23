@@ -46,6 +46,14 @@ Send a JSON-encoded message on the WebSocket. The schema of said message should 
   "add_timestamps": false
 }
 ```
+You may also cancel outgoing requests through the websocket. This will only halt requests that have not begun generating a response yet.
+
+```json WebSocket Request
+{
+  "context_id": "happy-monkeys-fly",
+  "cancel": true,
+}
+```
 
 ## WebSocket Responses
 
