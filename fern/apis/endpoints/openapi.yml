@@ -607,10 +607,7 @@ components:
                         type: integer
                         enum: [8000, 16000, 22050, 24000, 44100, 48000]
               language:
-                title: Language
-                type: string
-                enum: ["en", "es", "fr", "de", "pt", "zh", "ja"]
-                example: "en"
+                "$ref": "#/components/schemas/TTSLanguage"
               add_timestamps:
                 title: Add Timestamps
                 type: boolean
@@ -933,10 +930,7 @@ components:
                         type: integer
                         enum: [8000, 16000, 22050, 24000, 44100, 48000]
               language:
-                title: Language
-                type: string
-                enum: ["en", "de", "es", "fr", "ja", "pt", "zh"]
-                example: "en"
+                "$ref": "#/components/schemas/TTSLanguage"
     VoiceLocalizationRequest:
       required: true 
       content:
@@ -953,9 +947,14 @@ components:
                 "$ref": "#/components/schemas/VoiceEmbedding"
               language:
                 title: Language
-                description: "Target language, which the output embedding will be localized to."
+                description: "Target language, which the output embedding will be localized to. Options: `en` (English), `de` (German), `es` (Spanish), `fr` (French), `ja` (Japanese), `pt` (Portuguese), `zh` (Chinese)."
                 type: string
                 enum: ["en", "de", "es", "fr", "ja", "pt", "zh"]
+              dialect:
+                title: Dialect (optional)
+                description: "Target accent/dialect, which the output embedding will be localized to. Currently only supported for language `en`. Options: `au` (Australian), `in` (Indian), `so` (Southern [American]), `uk` (British), `us` (American)."
+                type: string
+                enum: ["au", "in", "so", "uk", "us"]
               original_speaker_gender:
                 title: Original Speaker Gender
                 description: Speaker gender of the original speaker, used to accurately localize voice. 
@@ -1043,6 +1042,12 @@ components:
       title: Clip
       type: string
       format: binary
+
+    TTSLanguage:
+      title: Language
+      description: "Language of the generation. Options are: `en` (English), `de` (German), `es` (Spanish), `fr` (French), `ja` (Japanese), `pt` (Portuguese), `zh` (Chinese), `hi` (Hindi), `it` (Italian), `ko` (Korean), `nl` (Dutch), `pl` (Polish), `ru` (Russian), `sv` (Swedish), `tr` (Turkish)."
+      type: string
+      enum: ["en", "de", "es", "fr", "ja", "pt", "zh", "hi", "it", "ko", "nl", "pl", "ru", "sv", "tr"]
 
     JSONBaseResponse:
       title: JSON Base Response

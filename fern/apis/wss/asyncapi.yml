@@ -375,11 +375,10 @@ components:
               enum: [8000, 16000, 22050, 24000, 44100]
               example: 8000
         language: 
+          title: Language
+          description: "Language of the generation. Options are: `en` (English), `de` (German), `es` (Spanish), `fr` (French), `ja` (Japanese), `pt` (Portuguese), `zh` (Chinese), `hi` (Hindi), `it` (Italian), `ko` (Korean), `nl` (Dutch), `pl` (Polish), `ru` (Russian), `sv` (Swedish), `tr` (Turkish)."
           type: string
-          enum: [
-            "en", "es", "fr", "de", "pt", "zh", "ja"
-          ]
-          example: "en"
+          enum: ["en", "de", "es", "fr", "ja", "pt", "zh", "hi", "it", "ko", "nl", "pl", "ru", "sv", "tr"]
         add_timestamps: 
           type: boolean 
           description: Whether to add timestamps to the audio. This is only supported on `tts/sse` and WebSocket endpoints.
