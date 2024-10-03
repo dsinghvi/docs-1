@@ -6,7 +6,9 @@ slug: concepts/continuations
 
 ## What are Continuations?
 
-Continuations refers to the ability to extend audio generation segments across multiple sequential inputs. This is also known as **conditioning on past generations**. 
+Continuations refers to the ability to extend audio generation segments across multiple sequential inputs. This is also known as **conditioning on past generations**.
+
+This document will cover concepts, for more on implementation see [here](/reference/web-socket/stream-speech/working-with-web-sockets#input-streaming-with-contexts). Note that **continuations are only available through the [websocket endpoint](/reference/web-socket/stream-speech/stream-speech)**.
 
 ## Why should I use Continuations?
 
@@ -58,3 +60,9 @@ We recommend having the first chunk be a sentence, and then you can stream in to
 </Note>
 
 We'll be adding a flag shortly in the future to begin the buffering from the first chunk.
+
+### Cancellations
+
+Many of us know the feeling of kicking off a massive job and then realizing that we've made a grave mistake. Luckily we support cancellations. If you haven't signaled the transcript submissions (an empty transcript with `_continue=False`), you can submit a cancellation request to prevent queued generations from occurring. This can be helpful for managing concurrency and character usage.
+
+For more on implementation see [here](/reference/web-socket/stream-speech/working-with-web-sockets#cancelling-requests).
