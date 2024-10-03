@@ -57,10 +57,10 @@ navigation:
             path: getting-started/dev-quickstart.mdx
       - section: Concepts
         contents:
-          - page: Embeddings and Voice Mixing
-            path: concepts/embeddings-and-voice-mixing.mdx
           - page: Continuations (Conditioning on Past Generations)
             path: concepts/continuations.mdx
+          - page: Embeddings and Voice Mixing
+            path: concepts/embeddings-and-voice-mixing.mdx
       - section: User Guides
         contents:
           - page: Custom Pronunciations
