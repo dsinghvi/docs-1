@@ -1,0 +1,55 @@
+---
+title: Continuations
+subtitle: Learn how to get the best quality out of multiple inputs
+slug: concepts/continuations
+---
+
+## What are Continuations?
+
+Continuations refers to the ability to extend audio generation segments across multiple sequential inputs. This is also known as **conditioning on past generations**. 
+
+## Why should I use Continuations?
+
+Given a large transcript or multiple transcripts, technically you could generate all sections independently and stitch them together to get the resulting audio. However, this is both inefficient and also results in unstable audio quality. Let's consider the simple example of `Hello, my name is Sonic.`
+
+### Prosody
+
+<figure>
+    <img src="/images/concepts_continuations_without_continuations.png" alt="no_continuations" />
+    <figcaption>Figure 1: Generate both transcripts independently & stitch them together.</figcaption>
+</figure>
+
+Let's split the example transcript into 2 parts. Transcript 1 will be `Hello, my` and Transcript 2 will be `name is Sonic.`. We can generate each independently and combine them to for our final result:
+
+![](/audio/concepts_continuations_without_continuations.wav)
+
+Technically we've achieved TTS for the example transcript, but I think we can all agree this sounds incredibly weird. There are two main problems with this:
+- The [prosody](https://en.wikipedia.org/wiki/Prosody_(linguistics)) is off between the two, so it doesn't sound like a natural sentence. This is because `Hello, my` doesn't know that there's more to the sentence, and `name is Sonic.` doesn't know that something came before it.
+- The break between audio 1 and audio 2 is too short relative to a normal speaking cadence.
+
+<figure>
+    <img src="/images/concepts_continuations_without_continuations.png" alt="no_continuations" />
+    <figcaption>Figure 2: Generate both transcripts using continuations.</figcaption>
+</figure>
+
+Let's try the same transcripts, but using continuations:
+
+![](/audio/concepts_continuations_with_continuations.wav)
+
+We can hear that the transcript flows much more naturally. 
+
+### Multiple inputs
+
+You'll notice in Figure 2 that there's an `Audio N...` section in the output audio as well. This is because continuations allows you to change any N inputs together for a coherent audio output.
+
+### What if I want to stream in word by word?
+
+![](/images/concepts_continuations_multiple_inputs.png)
+
+One of the more common use-cases we've seen is using an LLM of your choice to stream text into our Text-To-Speech API. Our current API will optimally buffer on our server side, but since some of our users want to generate audio from short snippets, we only begin buffering after first submission. What this means is **you need to buffer the first chunk on your end**.
+
+<Note>
+We recommend having the first chunk be a sentence, and then you can stream in token by token.
+</Note>
+
+We'll be adding a flag shortly in the future to begin the buffering from the first chunk.
