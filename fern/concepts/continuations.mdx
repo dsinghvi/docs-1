@@ -21,7 +21,10 @@ Given a large transcript or multiple transcripts, technically you could generate
 
 Let's split the example transcript into 2 parts. Transcript 1 will be `Hello, my` and Transcript 2 will be `name is Sonic.`. We can generate each independently and combine them to for our final result:
 
-![](/audio/concepts_continuations_without_continuations.wav)
+
+<audio controls src="/audio/concepts_continuations_without_continuations.wav">
+  Your browser does not support the audio element.
+</audio>
 
 Technically we've achieved TTS for the example transcript, but I think we can all agree this sounds incredibly weird. There are two main problems with this:
 - The [prosody](https://en.wikipedia.org/wiki/Prosody_(linguistics)) is off between the two, so it doesn't sound like a natural sentence. This is because `Hello, my` doesn't know that there's more to the sentence, and `name is Sonic.` doesn't know that something came before it.
@@ -34,7 +37,9 @@ Technically we've achieved TTS for the example transcript, but I think we can al
 
 Let's try the same transcripts, but using continuations:
 
-![](/audio/concepts_continuations_with_continuations.wav)
+<audio controls src="/audio/concepts_continuations_with_continuations.wav">
+  Your browser does not support the audio element.
+</audio>
 
 We can hear that the transcript flows much more naturally. 
 
