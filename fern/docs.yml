@@ -59,6 +59,8 @@ navigation:
         contents:
           - page: Embeddings and Voice Mixing
             path: concepts/embeddings-and-voice-mixing.mdx
+          - page: Continuations (Conditioning on Past Generations)
+            path: concepts/continuations.mdx
       - section: User Guides
         contents:
           - page: Custom Pronunciations
