@@ -12,16 +12,16 @@ This document will cover concepts, for more on implementation see [here](/refere
 
 ## Why should I use Continuations?
 
-Given a large transcript or multiple transcripts, technically you could generate all sections independently and stitch them together to get the resulting audio. However, this is both inefficient and also results in unstable audio quality. Let's consider the simple example of `Hello, my name is Sonic.`
+Given a large transcript or multiple transcripts, technically you could generate all sections independently and stitch them together to get the resulting audio. However, this is both inefficient and also results in unstable audio quality. Let's consider the simple example of `Hello, my name is Sonic. It's very nice to meet you.`
 
 ### Prosody
 
 <figure>
     <img src="/assets/images/concepts_continuations_without_continuations.png" alt="no_continuations" />
-    <figcaption>Figure 1: Generate both transcripts independently & stitch them together.</figcaption>
+    <figcaption>Figure 1: Generate transcripts independently & stitch them together.</figcaption>
 </figure>
 
-Let's split the example transcript into 2 parts. Transcript 1 will be `Hello, my` and Transcript 2 will be `name is Sonic.`. We can generate each independently and combine them to for our final result:
+Let's split the example transcript into 3 parts. Transcript 1 will be `Hello, my name is Sonic.`, Transcript 2 will be `It's very nice`, and Transcript 3 will be `to meet you.`. We can generate each independently and combine them to get our final result:
 
 
 <audio controls src="https://cartesia-docs-public.s3.us-east-2.amazonaws.com/concepts/continuations/without_continuations.wav">
@@ -29,15 +29,82 @@ Let's split the example transcript into 2 parts. Transcript 1 will be `Hello, my
 </audio>
 
 Technically we've achieved TTS for the example transcript, but I think we can all agree this sounds incredibly weird. There are two main problems with this:
-- The [prosody](https://en.wikipedia.org/wiki/Prosody_(linguistics)) is off between the two, so it doesn't sound like a natural sentence. This is because `Hello, my` doesn't know that there's more to the sentence, and `name is Sonic.` doesn't know that something came before it.
-- The break between audio 1 and audio 2 is too short relative to a normal speaking cadence.
+- The [prosody](https://en.wikipedia.org/wiki/Prosody_(linguistics)) is off between the clips, so it doesn't sound like a natural sentence. This is because `It's very nice` doesn't know that there's more to the sentence, and `to meet you.` doesn't know that something came before it.
+- The breaks between audio 1, audio 2, and audio 3 are too short relative to a normal speaking cadence.
 
 <figure>
     <img src="/assets/images/concepts_continuations_with_continuations.png" alt="continuations" />
-    <figcaption>Figure 2: Generate both transcripts using continuations.</figcaption>
+    <figcaption>Figure 2: Generate transcripts using continuations.</figcaption>
 </figure>
 
 Let's try the same transcripts, but using continuations:
+
+<AccordionGroup>
+  <Accordion
+    title="Example Python Code"
+  >
+```python
+import asyncio
+from cartesia import AsyncCartesia
+from datetime import datetime
+import os
+import sys
+import wave
+
+async def generate_audio_continuous(client, model_id, output_format, voice_id, transcripts):
+    wave_file = wave.open(f'test_gen_continuations_{datetime.now().strftime("%Y%m%d_%H%M%S")}.wav', 'wb')
+    wave_file.setnchannels(1)
+    wave_file.setsampwidth(2)
+    wave_file.setframerate(output_format['sample_rate'])
+
+    # Connect a websocket
+    ws = await client.tts.websocket()
+    ctx = ws.context()
+
+    for transcript in transcripts:
+        await ctx.send(
+            model_id=model_id,
+            transcript=transcript,
+            voice_id=voice_id,
+            output_format=output_format,
+            continue_=True,
+        )
+
+    # Indicate that no more inputs will be sent. Otherwise, the context will close after 5 seconds of inactivity.
+    await ctx.no_more_inputs()
+
+    async for output in ctx.receive():
+        if "audio" in output:
+            buffer = output["audio"]
+            wave_file.writeframes(buffer)
+
+    wave_file.close()
+    await ws.close()
+
+async def main():
+    transcripts = ['Hello, my name is Sonic.', "It's very nice ", "to meet you."]
+    voice_id = 'bd9120b6-7761-47a6-a446-77ca49132781' # Tutorial Man
+
+    model_id = "sonic-english"
+
+    output_format = {
+        "container": "raw",
+        "encoding": "pcm_s16le",
+        "sample_rate": 44100,
+    }
+
+    async with AsyncCartesia(api_key=os.environ.get('CARTESIA_API_KEY'), timeout=200) as client:
+        # Run the generation
+        await generate_audio_continuous(client, model_id, output_format, voice_id, transcripts)
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+    loop.close()
+    sys.exit(0)
+```
+  </Accordion>
+</AccordionGroup>
 
 <audio controls src="https://cartesia-docs-public.s3.us-east-2.amazonaws.com/concepts/continuations/with_continuations.wav">
   Your browser does not support the audio element.
@@ -69,6 +136,6 @@ We'll be adding a flag shortly in the future to begin the buffering from the fir
 
 ### Cancellations
 
-Many of us know the feeling of kicking off a massive job and then realizing that we've made a grave mistake. Luckily we support cancellations. If you haven't signaled the transcript submissions (an empty transcript with `_continue=False`), you can submit a cancellation request to prevent queued generations from occurring. This can be helpful for managing concurrency and character usage.
+Many of us know the feeling of kicking off a massive job and then realizing that we've made a grave mistake. Luckily we support cancellations. If you haven't signaled the transcript submissions (an empty transcript with `continue=False`), you can submit a cancellation request to prevent queued generations from occurring. This can be helpful for managing concurrency and character usage.
 
 For more on implementation see [here](/reference/web-socket/stream-speech/working-with-web-sockets#cancelling-requests).
