@@ -93,6 +93,7 @@ async def main():
         "sample_rate": 44100,
     }
 
+    # Make sure your API key is set at CARTESIA_API_KEY
     async with AsyncCartesia(api_key=os.environ.get('CARTESIA_API_KEY'), timeout=200) as client:
         # Run the generation
         await generate_audio_continuous(client, model_id, output_format, voice_id, transcripts)
@@ -120,7 +121,11 @@ You'll notice in Figure 2 that there's an `Audio N...` section in the output aud
 
 ![](/assets/images/concepts_continuations_multiple_inputs.png)
 
-Let's try the following transcripts with continuations: `['Hello, my name is Sonic.', 'It's', 'very', 'nice', 'to', 'meet', 'you.']`
+Let's try the following transcripts with continuations: `['Hello, my name is Sonic.', "It's ", 'very ', 'nice ', 'to ', 'meet ', 'you.']`
+
+<Note>
+Note that the one word transcripts each have a space after them if they don't have a punctuation.
+</Note>
 
 <audio controls src="https://cartesia-docs-public.s3.us-east-2.amazonaws.com/concepts/continuations/with_continuations_many_inputs.wav">
   Your browser does not support the audio element.
