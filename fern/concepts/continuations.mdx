@@ -24,7 +24,7 @@ Given a large transcript or multiple transcripts, technically you could generate
 Let's split the example transcript into 2 parts. Transcript 1 will be `Hello, my` and Transcript 2 will be `name is Sonic.`. We can generate each independently and combine them to for our final result:
 
 
-<audio controls src="/assets/audio/concepts_continuations_without_continuations.wav">
+<audio controls src="https://cartesia-docs-public.s3.us-east-2.amazonaws.com/concepts/continuations/without_continuations.wav">
   Your browser does not support the audio element.
 </audio>
 
@@ -39,7 +39,7 @@ Technically we've achieved TTS for the example transcript, but I think we can al
 
 Let's try the same transcripts, but using continuations:
 
-<audio controls src="/assets/audio/concepts_continuations_with_continuations.wav">
+<audio controls src="https://cartesia-docs-public.s3.us-east-2.amazonaws.com/concepts/continuations/with_continuations.wav">
   Your browser does not support the audio element.
 </audio>
 
@@ -52,6 +52,12 @@ You'll notice in Figure 2 that there's an `Audio N...` section in the output aud
 ### What if I want to stream in word by word?
 
 ![](/assets/images/concepts_continuations_multiple_inputs.png)
+
+Let's try the following transcripts with continuations: `['Hello, my name is Sonic.', 'It's', 'very', 'nice', 'to', 'meet', 'you.']`
+
+<audio controls src="https://cartesia-docs-public.s3.us-east-2.amazonaws.com/concepts/continuations/with_continuations_many_inputs.wav">
+  Your browser does not support the audio element.
+</audio>
 
 One of the more common use-cases we've seen is using an LLM of your choice to stream text into our Text-To-Speech API. Our current API will optimally buffer on our server side, but since some of our users want to generate audio from short snippets, we only begin buffering after first submission. What this means is **you need to buffer the first chunk on your end**.
 
