@@ -141,6 +141,6 @@ We'll be adding a flag shortly in the future to begin the buffering from the fir
 
 ## Cancellations
 
-Many of us know the feeling of kicking off a massive job and then realizing that we've made a grave mistake. Luckily we support cancellations. If you haven't signaled the transcript submissions (an empty transcript with `continue=False`), you can submit a cancellation request to prevent queued generations from occurring. This can be helpful for managing concurrency and character usage.
+Many of us know the feeling of kicking off a massive job and then realizing that we've made a grave mistake. Luckily we support cancellations. If you haven't signaled the end of transcript submissions (an empty transcript with `continue=False` or `ctx.no_more_inputs()` if you're using the Client), you can submit a cancellation request to prevent queued generations from occurring. This can be helpful for managing concurrency and character usage.
 
 For more on implementation see [here](/reference/web-socket/stream-speech/working-with-web-sockets#cancelling-requests).
