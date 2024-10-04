@@ -132,3 +132,25 @@ If you don't know the last transcript in advance, you can send an input with an 
 You will only receive `done: true` after outputs for the entire context have been returned.
 
 Outputs for a given context will always be in order of the inputs you streamed in. (That is, if you send input A and then input B on a context, you will first receive the chunks corresponding to input A, and then the chunks corresponding to input B.)
+
+## Cancelling Requests
+You may also cancel outgoing requests through the websocket.
+
+To cancel a request, send a JSON message with the following structure:
+
+```json WebSocket Request
+{
+  "context_id": "happy-monkeys-fly",
+  "cancel": true
+}
+```
+
+When you send a cancel request:
+
+1. It will only halt requests that have not begun generating a response yet.
+2. Any currently generating request will continue sending responses until completion.
+
+<Note>
+The `context_id` in the cancel request should match the `context_id` of the request you want to cancel.
+</Note>
+
