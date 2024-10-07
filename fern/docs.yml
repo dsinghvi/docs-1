@@ -85,12 +85,12 @@ navigation:
             path: migration-guides/migrating-to-the-stable-api.mdx
   - tab: reference
     layout:
-      - api: WebSocket
+      - api: WebSocket (Speech)
         api-name: wss
         flattened: true
         layout:
           - stream-speech:
-              title: WebSocket
+              title: WebSocket (Speech)
               contents:
                 - WSS /tts/websocket
                 - page: Working with WebSockets
@@ -100,10 +100,16 @@ navigation:
         paginated: true
         flattened: true
         layout:
-          - section: REST
+          - section: Speech
             contents:
               - POST /tts/bytes
               - POST /tts/sse
+          - section: Voice Conversion
+            contents:
+              - POST /voice-conversion/sse
+          - section:
+          - section: Voices
+            contents:
               - POST /voices/clone/clip
               - POST /voices/mix
               - POST /voices/localize
@@ -112,4 +118,6 @@ navigation:
               - PATCH /voices/{id}
               - GET /voices/{id}
               - GET /voices
+          - section: Other
+            contents:
               - GET /
