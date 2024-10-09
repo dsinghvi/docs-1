@@ -60,7 +60,8 @@ paths:
     post:
       summary: Voice Conversion (Server-Sent Events)
       description: |-
-        Converts an audio clip to a new voice. The audio is streamed out as Server-Sent Events. To specify the voice, exactly one of `voice_id` or `voice_embedding` must be specified.
+        Converts an audio clip to a new voice. The audio is streamed out as Server-Sent Events.
+        To specify the target voice, exactly one of `voice_id` or `voice_embedding` must be given.
       x-fern-streaming: true
       parameters:
         - $ref: "#/components/parameters/Cartesia-Version"
@@ -72,6 +73,7 @@ paths:
               required:
                 - clip
                 - model_id
+                - output_format[sample_rate]
                 # We should require one of voice_id and voice_embedding. This will be easier with OpenAPI 4: https://github.com/OAI/sig-moonwalk/discussions/100
               properties:
                 clip:
@@ -87,6 +89,16 @@ paths:
                   type: string
                   description: The ID of the model to use for the conversion. For voice conversion, this must be `voice-conversion`.
                   example: voice-conversion
+                output_format[sample_rate]:
+                  title: Sample Rate
+                  type: integer
+                  description: The sample rate of the output.
+                  example: 44100
+                output_format[encoding]:
+                  title: Encoding
+                  description: The encoding of the output. This is optional, and defaults to `pcm_f32le` unless specified.
+                  type: string
+                  enum: ["pcm_s16le", "pcm_f32le", "pcm_mulaw", "pcm_alaw"]
                 voice_id:
                   type: string
                   description: The ID of the voice to convert to. 
