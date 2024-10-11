@@ -39,6 +39,7 @@
 	text-transform: uppercase;
 	color: var(--gray-12);
 	font-size: 0.8rem;
+	text-decoration: none;
 }
 
 .fern-header-tab-button {
