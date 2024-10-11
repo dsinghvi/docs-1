@@ -37,6 +37,7 @@ tabs:
     display-name: API Reference
     slug: reference
     icon: fa-regular fa-code
+    skip-slug: true
 layout:
   tabs-placement: header
   searchbar-placement: header
@@ -47,14 +48,14 @@ navigation:
         contents:
           - page: Overview
             path: getting-started/overview.mdx
-          - page: Getting Help
-            path: getting-started/getting-help.mdx
-          - page: Using the API
-            path: getting-started/using-the-api.mdx
-          - page: Available Models
-            path: getting-started/available-models.mdx
+          - page: Make an API request
+            path: getting-started/make-an-api-request.mdx
           - page: Dev Quickstart
             path: getting-started/dev-quickstart.mdx
+      - section: Learn about Sonic
+        contents:
+          - page: Models
+            path: learn-about-sonic/models.mdx
       - section: Concepts
         contents:
           - page: Continuations (Conditioning on Past Generations)
@@ -85,20 +86,26 @@ navigation:
             path: migration-guides/migrating-to-the-stable-api.mdx
   - tab: reference
     layout:
+      - page: API Conventions
+        path: api-reference/api-conventions.mdx
       - api: WebSocket
         api-name: wss
+        paginated: true
         flattened: true
+        skip-slug: true
         layout:
           - stream-speech:
+              slug: web-socket
               title: WebSocket
               contents:
                 - WSS /tts/websocket
                 - page: Working with WebSockets
                   path: api-reference/stream-speech-websocket.mdx
-      - api: API Reference
+      - api: REST
         api-name: endpoints
         paginated: true
         flattened: true
+        skip-slug: true
         layout:
           - section: REST
             contents:

@@ -18,7 +18,9 @@
 }
 
 .fern-page-heading,
-.fern-prose h2 {
+.fern-prose h1,
+.fern-prose h2,
+.fern-prose h3 {
 	font-weight: 600;
 	font-feature-settings: "cv01", "cv02", "cv03", "cv04", "cv11", "ss08";
 }
@@ -48,4 +50,11 @@
 
 .fern-breadcrumb {
 	margin-bottom: 0.5rem;
+}
+
+.prose a,
+.fern-mdx-link {
+	text-decoration: none;
+	font-weight: 400;
+	color: #00f;
 }
