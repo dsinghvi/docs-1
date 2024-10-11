@@ -30,8 +30,8 @@ navbar-links:
     url: https://play.cartesia.ai
 tabs:
   docs:
-    display-name: Guides
-    slug: guides
+    display-name: Documentation
+    slug: docs
     icon: fa-regular fa-file-alt
   reference:
     display-name: API Reference
@@ -45,8 +45,8 @@ navigation:
     layout:
       - section: Getting Started
         contents:
-          - page: Welcome!
-            path: getting-started/welcome.mdx
+          - page: Overview
+            path: getting-started/overview.mdx
           - page: Getting Help
             path: getting-started/getting-help.mdx
           - page: Using the API
@@ -113,3 +113,43 @@ navigation:
               - GET /voices/{id}
               - GET /voices
               - GET /
+typography:
+  bodyFont:
+    name: Tiempos Text
+    paths:
+      - path: assets/fonts/tiempos-text-regular.woff2
+        weight: 400
+        style: normal
+      - path: assets/fonts/tiempos-text-medium.woff2
+        weight: 500 900
+        style: normal
+      - path: assets/fonts/tiempos-text-regular-italic.woff2
+        weight: 400
+        style: italic
+      - path: assets/fonts/tiempos-text-medium-italic.woff2
+        weight: 500 900
+        style: italic
+  headingsFont:
+    name: Inter
+    paths:
+      - path: assets/fonts/InterVariable.woff2
+        weight: 100 900
+        style: normal
+      - path: assets/fonts/InterVariable-Italic.woff2
+        weight: 100 900
+        style: italic
+  codeFont:
+    name: Berkeley Mono
+    paths:
+      - path: assets/fonts/BerkeleyMono-Regular.woff2
+        weight: 400
+        style: normal
+      - path: assets/fonts/BerkeleyMono-Italic.woff2
+        weight: 400
+        style: italic
+      - path: assets/fonts/BerkeleyMono-Bold.woff2
+        weight: 700
+        style: normal
+      - path: assets/fonts/BerkeleyMono-BoldItalic.woff2
+        weight: 700
+        style: italic

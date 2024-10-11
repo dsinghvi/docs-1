@@ -1,3 +1,50 @@
 .fern-web-socket-trigger {
-  transition-duration: 0.01s !important;
+	transition-duration: 0.01s !important;
+}
+
+.fern-sidebar-link-container[data-state="active"] .fern-sidebar-link {
+	background: var(--gray-3);
+	color: rgba(var(--accent));
+}
+
+.fern-sidebar-link-container[data-state="active"] .fern-sidebar-link-text {
+	font-weight: 500;
+}
+
+.fern-sidebar-link-container:not([data-state="active"])
+	.fern-sidebar-link:hover {
+	background: transparent;
+	color: rgba(var(--body-text));
+}
+
+.fern-page-heading,
+.fern-prose h2 {
+	font-weight: 600;
+	font-feature-settings: "cv01", "cv02", "cv03", "cv04", "cv11", "ss08";
+}
+
+.fern-card .t-default {
+	font-family: var(--typography-heading-font-family);
+}
+
+.fern-sidebar-container {
+	font-family: var(--typography-heading-font-family);
+}
+
+.fern-sidebar-heading .fern-sidebar-heading-content,
+.fern-breadcrumb-item {
+	font-family: var(--typography-code-font-family);
+	font-weight: 400;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--gray-12);
+	font-size: 0.8rem;
+}
+
+.fern-header-tab-button {
+	font-family: var(--typography-heading-font-family);
+}
+
+.fern-breadcrumb {
+	margin-bottom: 0.5rem;
 }
