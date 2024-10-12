@@ -11,6 +11,9 @@ slug: getting-started/make-an-api-request
 
 ## Generate your first words
 
+<Tabs>
+
+<Tab title="cURL">
 To generate your first words, run this command in your terminal, replacing `YOUR_API_KEY`:
 
 ```bash
@@ -18,16 +21,98 @@ curl -N -X POST "https://api.cartesia.ai/tts/bytes" \
         -H "Cartesia-Version: 2024-06-10" \
         -H "X-API-Key: YOUR_API_KEY" \
         -H "Content-Type: application/json" \
-        -d '{"transcript": "Welcome to Cartesia Sonic!", "model_id": "sonic-english", "voice": {"mode":"id", "id": "a0e99841-438c-4a64-b679-ae501e7d6091"}, "output_format":{"container":"raw", "encoding":"pcm_f32le", "sample_rate":44100}}' \
-        | ffmpeg -f f32le -i pipe: sonic.wav
+        -d '{"transcript": "Welcome to Cartesia Sonic!", "model_id": "sonic-english", "voice": {"mode":"id", "id": "a0e99841-438c-4a64-b679-ae501e7d6091"}, "output_format":{"container":"wav", "encoding":"pcm_f32le", "sample_rate":44100}}'
 ```
 
-You may need to install FFMPEG.
-
-You can play the resulting `sonic.wav` file with `afplay sonic.wav` (on macOS) or `ffplay sonic.wav` (on any system with FFMPEG installed).
+You can play the resulting `sonic.wav` file with `afplay sonic.wav` (on macOS) or `ffplay sonic.wav` (on any system with FFmpeg installed). You can also just double click it in your file explorer.
 
 This command calls the [Stream Speech (Bytes)](/reference/api-reference/endpoints/stream-speech-bytes) endpoint which runs the text-to-speech generation and transmits the output in raw bytes.
 
+</Tab>
+
+<Tab title="Python">
+<Steps>
+### Install the SDK
+
+```sh
+pip install cartesia ffmpeg-python
+
+# Or, if you're using uv
+uv add cartesia ffmpeg-python
+```
+
+FFmpeg isn't strictly required, but it's useful for a variety of tasks (such as converting between formats), so we suggest installing it. You may need to install FFmpeg separately:
+
+```sh
+brew install ffmpeg  # macOS
+sudo apt install ffmpeg  # Debian/Ubuntu
+dnf install ffmpeg  # Fedora
+sudo pacman -S ffmpeg  # Arch Linux
+```
+
+### Make the API call
+
+```python
+from cartesia import Cartesia
+import os
+import subprocess
+import ffmpeg
+
+client = Cartesia(api_key=os.environ.get("CARTESIA_API_KEY"))
+
+voice_id = "a0e99841-438c-4a64-b679-ae501e7d6091"  # Barbershop Man
+model_id = "sonic-english"
+transcript = "Hello! Welcome to Cartesia"
+
+output_format = {
+    "container": "raw",
+    "encoding": "pcm_f32le",
+    "sample_rate": 44100,
+}
+
+# Set up a WebSocket connection.
+ws = client.tts.websocket()
+
+# Open a file to write the raw PCM audio bytes to.
+f = open("sonic.pcm", "wb")
+
+# Generate and stream audio.
+for output in ws.send(
+    model_id=model_id,
+    transcript=transcript,
+    voice_id=voice_id,
+    stream=True,
+    output_format=output_format,
+):
+    buffer = output["audio"]  # buffer contains raw PCM audio bytes
+    f.write(buffer)
+
+# Close the connection to release resources
+ws.close()
+f.close()
+
+# Convert the raw PCM bytes to a WAV file.
+ffmpeg.input("sonic.pcm", format="f32le").output("sonic.wav").run()
+
+# Play the file
+subprocess.run(["ffplay", "sonic.wav"])
+```
+
+### Run the script
+
+```sh
+CARTESIA_API_KEY=<your_api_key> python cartesia.py
+
+# Or, if you're using uv
+CARTESIA_API_KEY=<your_api_key> uv run cartesia.py
+```
+
+</Steps>
+</Tab>
+
+</Tabs>
+
+
 <Note>
-The voice used in this example can be found [on the playground](https://play.cartesia.ai/voices/a0e99841-438c-4a64-b679-ae501e7d6091).
+The voice used above can be found [on the playground](https://play.cartesia.ai/voices/a0e99841-438c-4a64-b679-ae501e7d6091).
 </Note>
