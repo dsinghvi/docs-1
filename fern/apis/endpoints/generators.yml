@@ -1,5 +1,0 @@
-api: 
-  path: openapi.yml
-  overrides: openapi-overrides.yml
-  settings: 
-    use-title: false

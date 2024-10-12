@@ -1,3 +1,0 @@
-servers:
-- url: "https://api.cartesia.ai"
-  x-fern-server-name: Production

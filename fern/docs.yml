@@ -72,7 +72,7 @@ navigation:
             path: user-guides/voice-cloning.mdx
           - page: Controlling Speed & Emotion
             path: user-guides/voice-control.mdx
-          - page: Twilio <> Cartesia
+          - page: Twilio + Cartesia
             path: user-guides/cartesia-twilio.mdx
       - section: Client Libraries
         contents:
@@ -87,39 +87,12 @@ navigation:
   - tab: reference
     layout:
       - page: API Conventions
+        icon: fa-ruler
         path: api-reference/api-conventions.mdx
-      - api: WebSocket
-        api-name: wss
+      - api: API Reference
+        api-name: voices
         paginated: true
         flattened: true
-        skip-slug: true
-        layout:
-          - stream-speech:
-              slug: web-socket
-              title: WebSocket
-              contents:
-                - WSS /tts/websocket
-                - page: Working with WebSockets
-                  path: api-reference/stream-speech-websocket.mdx
-      - api: REST
-        api-name: endpoints
-        paginated: true
-        flattened: true
-        skip-slug: true
-        layout:
-          - section: REST
-            contents:
-              - POST /tts/bytes
-              - POST /tts/sse
-              - POST /voices/clone/clip
-              - POST /voices/mix
-              - POST /voices/localize
-              - POST /voices
-              - DELETE /voices/{id}
-              - PATCH /voices/{id}
-              - GET /voices/{id}
-              - GET /voices
-              - GET /
 typography:
   bodyFont:
     name: Tiempos Text

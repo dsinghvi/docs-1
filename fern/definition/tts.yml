@@ -1,0 +1,107 @@
+imports:
+  voices: ./voices.yml
+  embedding: ./embedding.yml
+types:
+  TTSRequest:
+    properties:
+      model_id: string
+      transcript: string
+      voice: TTSRequestVoiceSpecifier
+  TTSRequestVoiceSpecifier:
+    discriminant: mode
+    union:
+      id: TTSRequestIdSpecifier
+      embedding: TTSRequestEmbeddingSpecifier
+  TTSRequestIdSpecifier:
+    properties:
+      id: voices.VoiceId
+      __experimental_controls: Controls
+  TTSRequestEmbeddingSpecifier:
+    properties:
+      embedding: embedding.Embedding
+      __experimental_controls: Controls
+  Controls:
+    properties:
+      speed: Speed
+      emotion: Emotion
+  Speed:
+    docs: |
+      Either a number between -1.0 and 1.0 or a natural language description of speed.
+
+      If you specify a number, 0.0 is the default speed, -1.0 is the slowest speed, and 1.0 is the fastest speed.
+    discriminated: false
+    union:
+      - NumericalSpecifier
+      - NaturalSpecifier
+  NumericalSpecifier:
+    type: double
+  NaturalSpecifier:
+    enum:
+      - slowest
+      - slow
+      - normal
+      - fast
+      - fastest
+  Emotion:
+    docs: |
+      An array of emotion:level tags.
+
+      Supported emotions are: anger, positivity, surprise, sadness, and curiosity.
+
+      Supported levels are: lowest, low, (omit), high, highest.
+    enum:
+      - value: anger:lowest
+        name: ANGER_LOWEST
+      - value: anger:low
+        name: ANGER_LOW
+      - value: anger
+        name: ANGER_NORMAL
+      - value: anger:high
+        name: ANGER_HIGH
+      - value: anger:highest
+        name: ANGER_HIGHEST
+      - value: positivity:lowest
+        name: POSITIVITY_LOWEST
+      - value: positivity:low
+        name: POSITIVITY_LOW
+      - value: positivity
+        name: POSITIVITY_NORMAL
+      - value: positivity:high
+        name: POSITIVITY_HIGH
+      - value: positivity:highest
+        name: POSITIVITY_HIGHEST
+      - value: surprise:lowest
+        name: SURPRISE_LOWEST
+      - value: surprise:high
+        name: SURPRISE_HIGH
+      - value: surprise:highest
+        name: SURPRISE_HIGHEST
+      - value: sadness:lowest
+        name: SADNESS_LOWEST
+      - value: sadness:low
+        name: SADNESS_LOW
+      - value: sadness
+        name: SADNESS_NORMAL
+      - value: curiosity:low
+        name: CURIOSITY_LOW
+      - value: curiosity
+        name: CURIOSITY_NORMAL
+      - value: curiosity:high
+        name: CURIOSITY_HIGH
+      - value: curiosity:highest
+        name: CURIOSITY_HIGHEST
+
+service:
+  base-path: /tts
+  auth: true
+  endpoints:
+    bytes:
+      path: /bytes
+      method: POST
+      display-name: Text to Speech (Bytes)
+      request: TTSRequest
+    sse:
+      path: /sse
+      method: POST
+      display-name: Text to Speech (SSE)
+      request: TTSRequest

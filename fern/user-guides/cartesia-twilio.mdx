@@ -1,5 +1,5 @@
 ---
-title: Twilio <> Cartesia
+title: Twilio + Cartesia
 subtitle: >-
   How to integrate Twilio with Cartesia to generate audio from text and send it as a voice call.
 slug: user-guides/cartesia-twilio
@@ -186,7 +186,7 @@ async function startCall(twilioWebsocketUrl) {
       to: outbound,  // Replace with the phone number you want to call
       from: inbound  // Replace with your Twilio phone number
     });
-    
+
     callSid = call.sid;
     log(`Call initiated. SID: ${callSid}`);
   } catch (error) {
@@ -212,21 +212,21 @@ function setupTwilioWebSocket() {
         res.writeHead(200);
         res.end('WebSocket server is running');
       });
-  
+
       const wss = new WebSocket.Server({ server });
-  
+
       log('WebSocket server created');
-  
+
       wss.on('connection', (twilioWs, request) => {
         log(`Twilio WebSocket connection attempt from ${request.socket.remoteAddress}`);
-  
+
         let streamSid = null;
-  
+
         twilioWs.on('message', (message) => {
           try {
             const msg = JSON.parse(message);
             log(`Received message from Twilio: ${JSON.stringify(msg)}`);
-            
+
             if (msg.event === 'start') {
               log('Media stream started');
               streamSid = msg.start.streamSid;
@@ -242,15 +242,15 @@ function setupTwilioWebSocket() {
             log(`Error processing Twilio message: ${error.message}`);
           }
         });
-  
+
         twilioWs.on('close', (code, reason) => {
           log(`Twilio WebSocket disconnected. Code: ${code}, Reason: ${reason}`);
         });
-  
+
         twilioWs.on('error', (error) => {
           log(`Twilio WebSocket error: ${error.message}`);
         });
-  
+
         // Handle incoming audio chunks from TTS WebSocket
         ttsWebSocket.on('message', (audioChunk) => {
           log('Received audio chunk from TTS');
@@ -263,10 +263,10 @@ function setupTwilioWebSocket() {
                   payload: JSON.parse(audioChunk)['data']
                 }
               }));
-  
+
               audioChunksReceived++;
               log(`Audio chunks received: ${audioChunksReceived}`);
-  
+
               if (audioChunksReceived >= 50) {
                 messageComplete = true;
                 log('Message complete, preparing to hang up');
@@ -279,20 +279,20 @@ function setupTwilioWebSocket() {
             log(`Error sending audio chunk to Twilio: ${error.message}`);
           }
         });
-  
+
         log('Twilio WebSocket connected and handlers set up');
       });
-  
+
       wss.on('error', (error) => {
         log(`WebSocket server error: ${error.message}`);
       });
-  
+
       server.listen(0, () => {
         const port = server.address().port;
         log(`Twilio WebSocket server is running on port ${port}`);
         resolve(port);
       });
-  
+
       server.on('error', (error) => {
         log(`HTTP server error: ${error.message}`);
         reject(error);
@@ -316,18 +316,18 @@ async function setupNgrokTunnel(port) {
 async function main() {
   try {
     log('Starting application');
-    
+
     await connectToTTSWebSocket();
     log('TTS WebSocket connected successfully');
-    
+
     await testTTSWebSocket();
     log('TTS WebSocket test passed successfully');
-    
+
     const twilioWebsocketPort = await setupTwilioWebSocket();
     log(`Twilio WebSocket server set up on port ${twilioWebsocketPort}`);
-    
+
     const twilioWebsocketUrl = await setupNgrokTunnel(twilioWebsocketPort);
-    
+
     await startCall(twilioWebsocketUrl);
   } catch (error) {
     log(`Error in main function: ${error.message}`);
