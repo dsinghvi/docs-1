@@ -54,7 +54,7 @@
 
 .prose a,
 .fern-mdx-link {
-	text-decoration: none;
-	font-weight: 400;
-	color: #00f;
+	font-weight: 500;
+	text-decoration-color: rgba(var(--accent));
+	text-underline-offset: 2px;
 }
