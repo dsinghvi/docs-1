@@ -80,10 +80,6 @@ navigation:
             path: client-libraries/javascript-typescript.mdx
           - page: Python
             path: client-libraries/python.mdx
-      - section: Migration Guides
-        contents:
-          - page: Migrating to the Stable API
-            path: migration-guides/migrating-to-the-stable-api.mdx
   - tab: reference
     layout:
       - page: API Conventions
