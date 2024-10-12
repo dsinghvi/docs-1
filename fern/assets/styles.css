@@ -58,3 +58,12 @@
 	text-decoration-color: rgba(var(--accent));
 	text-underline-offset: 2px;
 }
+
+.prose a:hover,
+.fern-mdx-link:hover {
+	text-decoration-thickness: 1px;
+}
+
+.external-link-icon {
+	display: none !important;
+}
