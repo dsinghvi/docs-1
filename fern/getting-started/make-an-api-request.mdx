@@ -102,7 +102,7 @@ f.close()
 ffmpeg.input("sonic.pcm", format="f32le").output("sonic.wav").run()
 
 # Play the file
-subprocess.run(["ffplay", "sonic.wav"])
+subprocess.run(["ffplay", "-autoexit", "-nodisp", "sonic.wav"])
 ```
 
 ### Run the script
