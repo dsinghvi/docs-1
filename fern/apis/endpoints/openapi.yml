@@ -97,6 +97,9 @@ paths:
                   "$ref": "#/components/schemas/VoiceDescription"
                 embedding:
                   "$ref": "#/components/schemas/VoiceEmbedding"
+                base_voice_id:
+                  "$ref": "#/components/schemas/VoiceId"
+                  description: The ID of the base voice to associate with this voice. Used for features like voice mixing.
       responses:
         "201":
           description: The created voice.
@@ -192,7 +195,7 @@ paths:
                 enhance:
                   type: boolean
                   description: Whether to enhance the audio before cloning the voice. Defaults to true.
-              
+
       responses:
         "200":
           $ref: "#/components/responses/VoiceEmbeddingResponse"
@@ -200,7 +203,7 @@ paths:
           $ref: "#/components/responses/Error"
 
   "/voices/mix":
-    post: 
+    post:
       summary: Mix Voices
       description: |-
         Mixes voices together to create a new voice. The voices are specified by their IDs or embeddings, and are accompanied by weights to describe how much to mix.
@@ -238,8 +241,8 @@ paths:
     post:
       summary: Localize Voice
       description: |-
-        Takes a voice embedding, and target language, and localizes the voice to the specific language. For certain languages, this improves the quality of the accent. 
-        
+        Takes a voice embedding, and target language, and localizes the voice to the specific language. For certain languages, this improves the quality of the accent.
+
         Pricing: This endpoint costs 225 characters of utilization per call.
       parameters:
         - $ref: "#/components/parameters/Cartesia-Version"
@@ -932,13 +935,13 @@ components:
               language:
                 "$ref": "#/components/schemas/TTSLanguage"
     VoiceLocalizationRequest:
-      required: true 
+      required: true
       content:
         application/json:
           schema:
             title: Voice Localization Request
             type: object
-            required: 
+            required:
               - embedding
               - language
               - original_speaker_gender
@@ -957,7 +960,7 @@ components:
                 enum: ["au", "in", "so", "uk", "us"]
               original_speaker_gender:
                 title: Original Speaker Gender
-                description: Speaker gender of the original speaker, used to accurately localize voice. 
+                description: Speaker gender of the original speaker, used to accurately localize voice.
                 type: string
                 enum: [male, female]
 
@@ -1015,6 +1018,8 @@ components:
           "$ref": "#/components/schemas/Timestamp"
         embedding:
           "$ref": "#/components/schemas/VoiceEmbedding"
+        base_voice_id:
+          "$ref": "#/components/schemas/VoiceId"
 
     VoiceDescription:
       title: Voice Description
@@ -1172,19 +1177,19 @@ components:
               title: Error
               type: string
               description: A human-readable error message.
-    
-    VoicesId: 
+
+    VoicesId:
       title: Voice ID
       type: object
       required: ["id", "weight"]
-      properties: 
+      properties:
         weight:
           type: number
           description: The weight of the voice in the mix. Must be a float in the range [0.0 and 1.0].
           example: 0.5
         id:
           "$ref": "#/components/schemas/VoiceId"
-      
+
     VoicesEmbedded:
       title: Voice Embedding
       type: object
@@ -1196,4 +1201,4 @@ components:
           example: 0.5
         embedding:
           "$ref": "#/components/schemas/VoiceEmbedding"
-                        
+
