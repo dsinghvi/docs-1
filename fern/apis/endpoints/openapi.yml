@@ -99,6 +99,7 @@ paths:
                   "$ref": "#/components/schemas/VoiceEmbedding"
                 base_voice_id:
                   "$ref": "#/components/schemas/VoiceId"
+                  description: The ID of the base voice to associate with this voice. Used for features like voice mixing.
       responses:
         "201":
           description: The created voice.
