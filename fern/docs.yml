@@ -221,7 +221,7 @@ redirects:
   - source: /user-guides/voice-control
     destination: /build-with-sonic/capability-guides/control-speed-and-emotion
     permanent: true
-  - source: user-guides/cartesia-twilio
+  - source: /user-guides/cartesia-twilio
     destination: /integrate-with-sonic/twilio
     permanent: true
   - source: /client-libraries/javascript-typescript
