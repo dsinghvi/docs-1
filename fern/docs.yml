@@ -1,12 +1,18 @@
 instances:
   - url: https://cartesia.docs.buildwithfern.com
     custom-domain: docs.cartesia.ai
+    edit-this-page:
+      github:
+        owner: cartesia-ai
+        repo: docs
+        branch: main
 title: Cartesia
 logo:
   light: logo/new-logo-light.svg
   dark: logo/new-logo-dark.svg
   height: 28
 css: assets/styles.css
+js: assets/script.js
 favicon: logo/icon.png
 colors:
   accent-primary:
@@ -24,92 +30,242 @@ navbar-links:
     url: https://cartesia.ai
   - type: minimal
     text: Discord
-    url: https://discord.com/invite/gAbbHgdyQM
+    url: https://discord.gg/cartesia
   - type: filled
     text: Playground
     url: https://play.cartesia.ai
 tabs:
   docs:
-    display-name: Guides
-    slug: guides
+    display-name: Documentation
+    slug: docs
     icon: fa-regular fa-file-alt
+    skip-slug: true
   reference:
     display-name: API Reference
     slug: reference
     icon: fa-regular fa-code
+    skip-slug: true
 layout:
   tabs-placement: header
   searchbar-placement: header
 navigation:
   - tab: docs
     layout:
-      - section: Getting Started
+      - section: Get Started
         contents:
-          - page: Welcome!
-            path: getting-started/welcome.mdx
-          - page: Getting Help
-            path: getting-started/getting-help.mdx
-          - page: Using the API
-            path: getting-started/using-the-api.mdx
-          - page: Available Models
-            path: getting-started/available-models.mdx
-          - page: Dev Quickstart
-            path: getting-started/dev-quickstart.mdx
-      - section: Concepts
-        contents:
-          - page: Continuations (Conditioning on Past Generations)
-            path: concepts/continuations.mdx
-          - page: Embeddings and Voice Mixing
-            path: concepts/embeddings-and-voice-mixing.mdx
-      - section: User Guides
-        contents:
-          - page: Custom Pronunciations
-            path: user-guides/custom-pronunciation-guide.mdx
-          - page: Improving Speech Quality
-            path: user-guides/improving-speech-quality.mdx
-          - page: Voice Cloning Guide
-            path: user-guides/voice-cloning.mdx
-          - page: Controlling Speed & Emotion
-            path: user-guides/voice-control.mdx
-          - page: Twilio <> Cartesia
-            path: user-guides/cartesia-twilio.mdx
-      - section: Client Libraries
+          - page: Overview
+            path: get-started/overview.mdx
+            icon: fa-browser
+          - page: Make an API request
+            path: get-started/make-an-api-request.mdx
+            icon: fa-paper-plane
+      - section: Use an SDK
         contents:
           - page: JavaScript/TypeScript
-            path: client-libraries/javascript-typescript.mdx
+            path: use-an-sdk/javascript-typescript.mdx
+            slug: javascript-typescript
+            icon: fa-code
           - page: Python
-            path: client-libraries/python.mdx
-      - section: Migration Guides
+            path: use-an-sdk/python.mdx
+            icon: fa-code
+      - section: Build with Sonic
         contents:
-          - page: Migrating to the Stable API
-            path: migration-guides/migrating-to-the-stable-api.mdx
+          - page: Models
+            path: build-with-sonic/models.mdx
+            icon: fa-microchip
+          - section: Capability Guides
+            icon: fa-cubes
+            contents:
+              - page: Clone Voices
+                path: build-with-sonic/capabilities/clone-voices.mdx
+                icon: fa-clone
+              - page: Specify Custom Pronunciations
+                path: build-with-sonic/capabilities/custom-pronunciations.mdx
+                icon: fa-microphone
+              - page: Control Speed and Emotion
+                path: build-with-sonic/capabilities/speed-and-emotion-controls.mdx
+                icon: fa-gauge
+              - page: Stream Inputs using Continuations
+                path: build-with-sonic/capabilities/stream-inputs.mdx
+                icon: fa-waveform
+              - page: Localize Voices
+                path: build-with-sonic/capabilities/localize-voices.mdx
+                icon: fa-earth-americas
+          - section: Formatting Text for Sonic
+            icon: fa-text-size
+            contents:
+              - page: Best Practices
+                path: build-with-sonic/formatting-text-for-sonic/best-practices.mdx
+                icon: fa-font
+              - page: Inserting Breaks/Pauses
+                path: build-with-sonic/formatting-text-for-sonic/inserting-breaks-pauses.mdx
+                icon: fa-pause
+              - page: Spelling out Input Text
+                path: build-with-sonic/formatting-text-for-sonic/spelling-out-input-text.mdx
+                icon: fa-spell-check
+      - section: Integrate with Sonic
+        contents:
+          - page: Twilio
+            path: integrate-with-sonic/twilio.mdx
+            icon: fa-phone
+          - page: Pipecat
+            path: integrate-with-sonic/pipecat.mdx
+            icon: fa-cat
+      - section: Peek Behind the Scenes
+        contents:
+          - page: Embeddings and Voice Mixing
+            path: behind-the-scenes/embeddings-and-voice-mixing.mdx
+            icon: fa-waveform
   - tab: reference
     layout:
-      - api: WebSocket
-        api-name: wss
-        flattened: true
-        layout:
-          - stream-speech:
-              title: WebSocket
-              contents:
-                - WSS /tts/websocket
-                - page: Working with WebSockets
-                  path: api-reference/stream-speech-websocket.mdx
+      - section: Use the API
+        contents:
+          - page: API Conventions
+            icon: fa-ruler
+            path: api-reference/api-conventions.mdx
+          - page: Concurrency Limits and Timeouts
+            path: api-reference/concurrency-limits-and-timeouts.mdx
+            icon: fa-traffic-light
       - api: API Reference
-        api-name: endpoints
+        api-name: voices
         paginated: true
         flattened: true
         layout:
-          - section: REST
-            contents:
-              - POST /tts/bytes
-              - POST /tts/sse
-              - POST /voices/clone/clip
-              - POST /voices/mix
-              - POST /voices/localize
-              - POST /voices
-              - DELETE /voices/{id}
-              - PATCH /voices/{id}
-              - GET /voices/{id}
-              - GET /voices
-              - GET /
+          - api-status: []
+          - tts:
+              - page: Compare TTS Endpoints
+                path: api-reference/tts-endpoints-overview.mdx
+                icon: fa-scale-balanced
+              - tts.bytes
+              - tts.sse
+              - tts.tts
+              - section: Working with WebSockets
+                icon: fa-plug
+                contents:
+                  - page: Contexts
+                    path: api-reference/contexts.mdx
+                    icon: fa-waveform
+          - voices: []
+typography:
+  bodyFont:
+    name: Tiempos Text
+    paths:
+      - path: assets/fonts/tiempos-text-regular.woff2
+        weight: 400
+        style: normal
+      - path: assets/fonts/tiempos-text-medium.woff2
+        weight: 500 900
+        style: normal
+      - path: assets/fonts/tiempos-text-regular-italic.woff2
+        weight: 400
+        style: italic
+      - path: assets/fonts/tiempos-text-medium-italic.woff2
+        weight: 500 900
+        style: italic
+  headingsFont:
+    name: Inter
+    paths:
+      - path: assets/fonts/InterVariable.woff2
+        weight: 100 900
+        style: normal
+      - path: assets/fonts/InterVariable-Italic.woff2
+        weight: 100 900
+        style: italic
+  codeFont:
+    name: Berkeley Mono
+    paths:
+      - path: assets/fonts/BerkeleyMono-Regular.woff2
+        weight: 400
+        style: normal
+      - path: assets/fonts/BerkeleyMono-Italic.woff2
+        weight: 400
+        style: italic
+      - path: assets/fonts/BerkeleyMono-Bold.woff2
+        weight: 700
+        style: normal
+      - path: assets/fonts/BerkeleyMono-BoldItalic.woff2
+        weight: 700
+        style: italic
+
+redirects:
+  - source: /getting-started/welcome
+    destination: /get-started/overview
+    permanent: true
+  - source: /getting-started/getting-help
+    destination: /get-started/overview
+    permanent: true
+  - source: /getting-started/using-the-api
+    destination: /get-started/make-an-api-request
+    permanent: true
+  - source: /getting-started/available-models
+    destination: /build-with-sonic/models
+    permanent: true
+  - source: /getting-started/dev-quickstart
+    destination: /get-started/make-an-api-request
+    permanent: true
+  - source: /concepts/continuations
+    destination: /build-with-sonic/capability-guides/stream-inputs-using-continuations
+    permanent: true
+  - source: /concepts/embeddings-and-voice-mixing
+    destination: /behind-the-scenes/embeddings-and-voice-mixing
+    permanent: true
+  - source: /user-guides/custom-pronunciation-guide
+    destination: /build-with-sonic/capability-guides/specify-custom-pronunciations
+    permanent: true
+  - source: /user-guides/improving-speech-quality
+    destination: /build-with-sonic/formatting-text-for-sonic/best-practices
+    permanent: true
+  - source: /user-guides/voice-cloning
+    destination: /build-with-sonic/capability-guides/clone-voices
+    permanent: true
+  - source: /user-guides/voice-control
+    destination: /build-with-sonic/capability-guides/control-speed-and-emotion
+    permanent: true
+  - source: user-guides/cartesia-twilio
+    destination: /integrate-with-sonic/twilio
+    permanent: true
+  - source: /client-libraries/javascript-typescript
+    destination: /use-an-sdk/javascript-typescript
+    permanent: true
+  - source: /client-libraries/python
+    destination: /use-an-sdk/python
+    permanent: true
+  - source: /reference/web-socket/stream-speech/stream-speech
+    destination: /api-reference/tts/tts
+    permanent: true
+  - source: /reference/web-socket/stream-speech/working-with-web-sockets
+    destination: /api-reference/tts/working-with-web-sockets/contexts
+    permanent: true
+  - source: /reference/api-reference/rest/stream-speech-bytes
+    destination: /api-reference/tts/bytes
+    permanent: true
+  - source: /reference/api-reference/rest/stream-speech-server-sent-events
+    destination: /api-reference/tts/sse
+    permanent: true
+  - source: /reference/api-reference/rest/clone-voice-from-clip
+    destination: /api-reference/voices/clone-from-clip
+    permanent: true
+  - source: /reference/api-reference/rest/mix-voices
+    destination: /api-reference/voices/mix
+    permanent: true
+  - source: /reference/api-reference/rest/create-voice
+    destination: /api-reference/voices/create
+    permanent: true
+  - source: /reference/api-reference/rest/list-voices
+    destination: /api-reference/voices/list
+    permanent: true
+  - source: /reference/api-reference/rest/delete-voice
+    destination: /api-reference/voices/delete
+    permanent: true
+  - source: /reference/api-reference/rest/get-voice
+    destination: /api-reference/voices/get
+    permanent: true
+  - source: /reference/api-reference/rest/update-voice
+    destination: /api-reference/voices/update
+    permanent: true
+  - source: /reference/api-reference/rest/localize-voice
+    destination: /api-reference/voices/localize
+    permanent: true
+  - source: /reference/api-reference/rest/api-status-and-version
+    destination: /api-reference/api-status/get
+    permanent: true
