@@ -111,6 +111,11 @@ navigation:
           - page: Pipecat
             path: integrate-with-sonic/pipecat.mdx
             icon: fa-cat
+      - section: Enterprise
+        contents:
+          - page: Set up SSO
+            path: enterprise/sso.mdx
+            icon: fa-shield-halved
       - section: Peek Behind the Scenes
         contents:
           - page: Embeddings and Voice Mixing
