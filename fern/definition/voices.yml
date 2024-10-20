@@ -193,4 +193,4 @@ service:
               type: boolean
               docs: |
                 Whether to enhance the clip to improve its quality before cloning. Useful if the clip is low quality.
-      response: Voice
+      response: EmbeddingResponse
