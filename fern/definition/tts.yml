@@ -203,8 +203,20 @@ types:
           Whether to cancel the context, so that no more messages are generated for that context.
 
   GenerationRequest:
-    extends: TTSRequest
     properties:
+      model_id:
+        type: string
+        docs: |
+          The ID of the model to use for the generation. See [Models](/build-with-sonic/models) for available models.
+      transcript: string
+      voice: TTSRequestVoiceSpecifier
+      language: optional<SupportedLanguage>
+      output_format: WebSocketRawOutputFormat
+      duration:
+        type: optional<double>
+        docs: |
+          The maximum duration of the audio in seconds. You do not usually need to specify this.
+          If the duration is not appropriate for the length of the transcript, the output audio may be truncated.
       context_id: ContextID
       continue:
         type: optional<boolean>
@@ -215,6 +227,12 @@ types:
         type: optional<boolean>
         docs: |
           Whether to return word-level timestamps.
+
+  WebSocketRawOutputFormat:
+    properties:
+      container: literal<"raw">
+      encoding: RawEncoding
+      sample_rate: integer
 
   WebSocketRequest:
     discriminated: false
