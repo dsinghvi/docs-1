@@ -79,6 +79,9 @@ navigation:
               - page: Clone Voices
                 path: build-with-sonic/capabilities/clone-voices.mdx
                 icon: fa-clone
+              - page: Pro Voice Cloning
+                path: build-with-sonic/capabilities/pro-voice-cloning.mdx
+                icon: fa-fingerprint
               - page: Specify Custom Pronunciations
                 path: build-with-sonic/capabilities/custom-pronunciations.mdx
                 icon: fa-microphone
