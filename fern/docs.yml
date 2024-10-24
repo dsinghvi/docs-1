@@ -115,6 +115,9 @@ navigation:
           - page: Pipecat
             path: integrate-with-sonic/pipecat.mdx
             icon: fa-cat
+          - page: LiveKit
+            path: integrate-with-sonic/livekit.mdx
+            icon: fa-circle
       - section: Enterprise
         contents:
           - page: Set up SSO
