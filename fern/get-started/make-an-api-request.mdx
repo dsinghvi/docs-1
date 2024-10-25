@@ -121,10 +121,10 @@ subprocess.run(["ffplay", "-autoexit", "-nodisp", "sonic.wav"])
 ### Run the script
 
 ```sh
-CARTESIA_API_KEY=<your_api_key> python cartesia.py
+env CARTESIA_API_KEY=YOUR_API_KEY python cartesia.py
 
 # Or, if you're using uv
-CARTESIA_API_KEY=<your_api_key> uv run cartesia.py
+env CARTESIA_API_KEY=YOUR_API_KEY uv run cartesia.py
 ```
 
 </Steps>
@@ -153,86 +153,45 @@ pnpm add @cartesia/cartesia-js fluent-ffmpeg
 
 ```js
 // hello.js
-import Cartesia from "@cartesia/cartesia-js";
-import fs from "fs";
-import ffmpeg from "fluent-ffmpeg";
-import { spawn } from "child_process";
+import Cartesia from "@cartesia/cartesia-js"
+import fs from "node:fs"
+import { spawn } from "node:child_process"
 
 if (!process.env.CARTESIA_API_KEY) {
-	throw new Error("CARTESIA_API_KEY is not set");
+  throw new Error("CARTESIA_API_KEY is not set")
 }
 
-const cartesia = new Cartesia({
-	apiKey: process.env.CARTESIA_API_KEY,
-});
+// Set up the client.
+const client = new Cartesia({
+  apiKey: process.env.CARTESIA_API_KEY,
+})
 
-// Initialize the WebSocket. Make sure the output format you specify is supported.
-const websocket = cartesia.tts.websocket({
-	container: "raw",
-	encoding: "pcm_f32le",
-	sampleRate: 44100
-});
+// Make the API call.
+const response = await client.tts.bytes({
+  model_id: "sonic-english",
+  voice: {
+    mode: "id",
+    id: "7b642096-4840-4ec0-9015-71236a6829a6",
+  },
+  output_format: {
+    container: "wav",
+    encoding: "pcm_f32le",
+    sample_rate: 44100,
+  },
+  transcript: "Welcome to Cartesia Sonic!",
+})
 
-try {
-	await websocket.connect();
-} catch (error) {
-	console.error(`Failed to connect to Cartesia: ${error}`);
-}
-
-// Create a stream.
-const response = await websocket.send({
-	model_id: "sonic-english",
-	voice: {
-		mode: "id",
-		id: "a0e99841-438c-4a64-b679-ae501e7d6091",
-	},
-	transcript: "Hello, world!"
-	// The WebSocket sets output_format to the following by default:
-	// output_format: {
-	// 	container: "raw",
-	// 	encoding: "pcm_f32le",
-	// 	sampleRate: 44100,
-	// }
-});
-
-// The response contains a `Source` object that you can use to access the raw PCM audio bytes.
-const { source } = response;
-
-// Create a buffer for 1 second of audio.
-const buf = new Float32Array(source.durationToSampleCount(1));
-
-const file = fs.createWriteStream("sonic.pcm");
-
-while (true) {
-	const read = await source.read(buf);
-	// If we've reached the end of the source, then read < buffer.length.
-	// In that case, we don't want to play the entire buffer, as that
-	// will cause repeated audio.
-	const playableAudio = buf.subarray(0, read);
-
-	file.write(Buffer.from(playableAudio.buffer));
-
-	if (read < buf.length) {
-		// No more audio to read.
-		break;
-	}
-}
-
-// Clean up.
-file.close();
-websocket.disconnect();
-
-// Convert the raw PCM bytes to a WAV file.
-ffmpeg.input("sonic.pcm").inputFormat("f32le").output("sonic.wav").run();
+// Write `response` (of type ArrayBuffer) to a file.
+fs.writeFileSync("sonic.wav", new Uint8Array(response))
 
 // Play the file.
-spawn("ffplay", ["-autoexit", "-nodisp", "sonic.wav"]);
+spawn("ffplay", ["-autoexit", "-nodisp", "sonic.wav"])
 ```
 
 ### Run the script
 
 ```sh
-env CARTESIA_API_KEY=<your_api_key> node hello.js
+env CARTESIA_API_KEY=YOUR_API_KEY node hello.js
 ```
 
 The Cartesia API client also supports other runtimes, like Bun and Deno.
