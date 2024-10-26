@@ -81,8 +81,8 @@ navigation:
                 contents:
                   - page: Instant Voice Cloning
                     path: build-with-sonic/capabilities/clone-voices/instant.mdx
-                  - page: HiFi Voice Cloning
-                    path: build-with-sonic/capabilities/clone-voices/hifi-voice-cloning.mdx
+                  - page: Fine Tuned Voice Cloning
+                    path: build-with-sonic/capabilities/clone-voices/fine-tune.mdx
               - page: Specify Custom Pronunciations
                 path: build-with-sonic/capabilities/custom-pronunciations.mdx
                 icon: fa-microphone
