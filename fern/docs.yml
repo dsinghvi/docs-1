@@ -81,7 +81,7 @@ navigation:
                 contents:
                   - page: Instant Voice Cloning
                     path: build-with-sonic/capabilities/clone-voices/instant.mdx
-                  - page: Fine Tuned Voice Cloning
+                  - page: Voice Fine-Tuning
                     path: build-with-sonic/capabilities/clone-voices/fine-tune.mdx
               - page: Specify Custom Pronunciations
                 path: build-with-sonic/capabilities/custom-pronunciations.mdx
