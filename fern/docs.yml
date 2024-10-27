@@ -79,7 +79,7 @@ navigation:
               - section: Clone Voices
                 icon: fa-clone
                 contents:
-                  - page: Instant Voice Cloning
+                  - page: Instant Cloning
                     path: build-with-sonic/capabilities/clone-voices/instant.mdx
                   - page: Voice Fine-Tuning
                     path: build-with-sonic/capabilities/clone-voices/fine-tune.mdx

@@ -3,18 +3,33 @@ title: Voice Fine-Tuning (Alpha)
 subtitle: >-
   Learn how to leverage model fine-tuning to create more faithful voice clones.
 ---
-<p style="color: red; font-weight: bold">
+<Warning>
   **Voice Fine-Tuning is currently in Alpha. Please contact [Support](https://play.cartesia.ai/support) if you
   encounter any issues.**
-</p>
+</Warning>
 
 <Frame background="subtle">
   <img src="/assets/images/fine-tune.png" />
 </Frame>
 
-**Voice Fine-Tuning** is available through the [Playground](https://play.cartesia.ai) to Scale and Enterprise tier users only. It uses model fine-tuning to train a custom model directly on your audio.
+The **Voice Fine-Tuning** feature is available to Scale and Enterprise users through the [Playground](https://play.cartesia.ai). It trains a custom model directly on your audio to create **Fine-Tuned Voices**.
 
-Let's walk through the process of creating an **Fine-Tuned Voice** using our `Sarah` voice as an example.
+## Pricing & Access Model
+
+| Stage | Cost | Notes |
+|-------|------|-------|
+| Fine-Tune Request | 3M Characters | One-time fee charged per fine-tune request |
+| Voice Unlock | 27M Characters | One-time fee per voice to enable API access |
+
+When a **Fine-Tune Request** completes, you'll receive **5** variations of your cloned voice. Initially, these voices are "locked" - meaning you can test them in the Playground but cannot access them via API. This allows you to thoroughly test each variation before committing to the ones you want to use at scale. Once you've identified the best performing variation(s) for your use case, you can unlock them for API access.
+
+<Warning>
+  **Locked Voices will be deleted after 30 days if not unlocked!**
+</Warning>
+
+## Creating Fine-Tuned Voices
+
+Let's walk through the process of creating a **Fine-Tuned Voice** using our `Sarah` voice as an example.
 
 To start, navigate to the [Voice Fine-Tuning](https://play.cartesia.ai/clone/requests) page in the Playground and click the **Request** button.
 
@@ -49,6 +64,6 @@ Once the training is complete, you'll see **5** versions of your new voice in th
 
 You'll have access to all voices via the Playground, but API access will be locked. To unlock, click the Lock icon next to each voice. There is a one time cost of **27 Million Characters** per voice you unlock.
 
-<p style="color: red; font-weight: bold">
+<Warning>
   **Locked Voices will be deleted after 30 days if not Unlocked!**
-</p>
+</Warning>
