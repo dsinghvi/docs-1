@@ -1,0 +1,63 @@
+imports:
+  tts: ./tts.yml
+
+service:
+  base-path: /voice-changer
+  auth: true
+  endpoints:
+    bytes:
+      path: /bytes
+      method: POST
+      display-name: Voice Changer (Bytes)
+      docs: |
+        Takes an audio file of speech, and returns the same speech spoken with a different voice.
+      request:
+        name: VoiceChangerBytesRequest
+        body:
+          properties:
+            clip: file
+            voice[id]: string
+            output_format[container]:
+              type: OutputFormatContainer
+            output_format[sample_rate]:
+              type: integer
+            output_format[encoding]:
+              type: optional<tts.RawEncoding>
+              docs: |
+                Required for RAW and WAV containers.
+            output_format[bit_rate]:
+              type: optional<integer>
+              docs: |
+                Required for MP3 and WAV containers.
+      response: file
+
+    sse:
+      path: /sse
+      method: POST
+      display-name: Voice Changer (SSE)
+      request:
+        name: VoiceChangerSSERequest
+        body:
+          properties:
+            clip: file
+            voice[id]: string
+            output_format[container]:
+              type: OutputFormatContainer
+            output_format[sample_rate]:
+              type: integer
+            output_format[encoding]:
+              type: optional<tts.RawEncoding>
+              docs: |
+                Required for RAW and WAV containers.
+            output_format[bit_rate]:
+              type: optional<integer>
+              docs: |
+                Required for MP3 and WAV containers.
+      response-stream: tts.WebSocketResponse
+
+types:
+  OutputFormatContainer:
+    enum:
+      - RAW
+      - WAV
+      - MP3
