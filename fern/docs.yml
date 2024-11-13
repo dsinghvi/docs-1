@@ -138,6 +138,9 @@ navigation:
         api-name: voices
         paginated: true
         flattened: true
+        snippets: 
+          python: "cartesia"
+          typescript: "@cartesia/cartesia-js"
         layout:
           - api-status: []
           - tts:
@@ -213,6 +216,9 @@ redirects:
     destination: /get-started/make-an-api-request
     permanent: true
   - source: /concepts/continuations
+    destination: /build-with-sonic/capability-guides/stream-inputs-using-continuations
+    permanent: true
+  - source: /build-with-cartesia/capability-guides/stream-inputs-with-continuations
     destination: /build-with-sonic/capability-guides/stream-inputs-using-continuations
     permanent: true
   - source: /concepts/embeddings-and-voice-mixing
