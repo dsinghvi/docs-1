@@ -42,6 +42,31 @@ types:
       language: tts.SupportedLanguage
       base_voice_id: optional<BaseVoiceId>
 
+  VoiceMetadata:
+    properties:
+      id: VoiceId
+      user_id:
+        type: string
+        docs: |
+          The ID of the user who owns the voice.
+      is_public:
+        type: boolean
+        docs: |
+          Whether the voice is publicly accessible.
+      name: &name
+        type: string
+        docs: |
+          The name of the voice.
+      description: &description
+        type: string
+        docs: |
+          The description of the voice.
+      created_at:
+        type: datetime
+        docs: |
+          The date and time the voice was created.
+      language: tts.SupportedLanguage
+
   CreateVoiceRequest:
     properties:
       name: *name
@@ -130,6 +155,11 @@ types:
       - IdSpecifier
       - EmbeddingSpecifier
 
+  CloneMode:
+    enum:
+      - similarity
+      - stability
+
 service:
   base-path: /voices
   auth: true
@@ -184,6 +214,42 @@ service:
       display-name: Mix Voices
       request: MixVoicesRequest
       response: EmbeddingResponse
+
+    clone:
+      path: /clone
+      method: POST
+      display-name: Clone Voice
+      request:
+        name: CloneVoiceRequest
+        body:
+          properties:
+            clip: file
+            name:
+              type: string
+              docs: |
+                The name of the voice.
+            description:
+              type: optional<string>
+              docs: |
+                A description for the voice.
+            language:
+              type: tts.SupportedLanguage
+              docs: |
+                The language of the voice.
+            mode:
+              type: CloneMode
+              docs: |
+                Tradeoff between similarity and stability. Similarity clones sound more like the source clip, but may reproduce background noise. Stability clones always sound like a studio recording, but may not sound as similar to the source clip.
+            enhance:
+              type: boolean
+              docs: |
+                Whether to enhance the clip to improve its quality before cloning. Useful if the clip has background noise.
+            transcript:
+              type: optional<string>
+              docs: |
+                Optional transcript of the words spoken in the audio clip. Only used for similarity mode.
+
+      response: VoiceMetadata
 
     cloneFromClip:
       path: /clone/clip
