@@ -248,8 +248,43 @@ service:
               type: optional<string>
               docs: |
                 Optional transcript of the words spoken in the audio clip. Only used for similarity mode.
-
       response: VoiceMetadata
+      examples:
+        - name: Stability
+          request:
+            # clip: file
+            name: "A high-stability cloned voice"
+            description: "Copied from Cartesia docs"
+            mode: stability
+            language: en
+            enhance: true
+          response:
+            body:
+              id: "df076429-66c6-4f3e-b98b-aee4e2c925ab"
+              user_id: "482aa35e-d86c-42a4-b818-7bdcfe40a858"
+              is_public: false
+              name: "A high-stability cloned voice"
+              description: "Copied from Cartesia docs"
+              created_at: "2024-11-13T07:06:22.476564Z"
+              language: en
+        - name: Similarity
+          request:
+            # clip: file
+            name: "A high-similarity cloned voice"
+            description: "Copied from Cartesia docs"
+            mode: similarity
+            language: en
+            transcript: "A transcript of the words spoken in the audio clip."
+            enhance: true
+          response:
+            body:
+              id: "40248dd5-bfe9-48e2-93f7-ea3f9d5c7f72"
+              user_id: "482aa35e-d86c-42a4-b818-7bdcfe40a858"
+              is_public: false
+              name: "A high-similarity cloned voice"
+              description: "Copied from Cartesia docs"
+              created_at: "2024-11-13T07:06:22.476564Z"
+              language: en
 
     cloneFromClip:
       path: /clone/clip
