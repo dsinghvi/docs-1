@@ -13,6 +13,7 @@ service:
       method: POST
       display-name: Text to Speech (Bytes)
       request: TTSRequest
+      response: file
       examples:
         - name: MP3
           request:
@@ -56,7 +57,9 @@ service:
       method: POST
       display-name: Text to Speech (SSE)
       request: TTSRequest
-      response-stream: WebSocketResponse
+      response-stream: 
+        type: WebSocketResponse
+        format: sse
 
 channel:
   path: /tts/websocket
@@ -192,7 +195,7 @@ types:
 
   WebSocketBaseResponse:
     properties:
-      context_id: ContextID
+      context_id: optional<ContextID>
       status_code: integer
       done: boolean
 
@@ -218,7 +221,13 @@ types:
   WebSocketTimestampResponse:
     extends: WebSocketBaseResponse
     properties:
-      word_timestamps: WordTimestamps
+      word_timestamps: optional<WordTimestamps>
+  
+  WebSocketTTSOutput:
+    properties:
+      word_timestamps: optional<WordTimestamps>
+      audio: optional<unknown>
+      context_id: optional<ContextID>
 
   WordTimestamps:
     properties:
@@ -280,6 +289,20 @@ types:
       - type: CancelContextRequest
         docs: |
           Use this to cancel a context, so that no more messages are generated for that context.
+
+  WebSocketTTSRequest:
+    properties:
+      model_id:
+        type: string
+        docs: |
+          The ID of the model to use for the generation. See [Models](/build-with-sonic/models) for available models.
+      output_format: OutputFormat
+      transcript: optional<string>
+      voice: TTSRequestVoiceSpecifier
+      duration: optional<integer>
+      language: optional<string>
+      add_timestamps: boolean
+      context_id: optional<string>
 
   TTSRequest:
     properties:
@@ -347,18 +370,20 @@ types:
       bit_rate: integer
 
   TTSRequestVoiceSpecifier:
-    discriminant: mode
+    discriminated: false
     union:
-      id: TTSRequestIdSpecifier
-      embedding: TTSRequestEmbeddingSpecifier
+      - TTSRequestIdSpecifier
+      - TTSRequestEmbeddingSpecifier
 
   TTSRequestIdSpecifier:
     properties:
+      mode: literal<"id">
       id: voices.VoiceId
       __experimental_controls: optional<Controls>
 
   TTSRequestEmbeddingSpecifier:
     properties:
+      mode: literal<"embedding">
       embedding: embedding.Embedding
       __experimental_controls: optional<Controls>
 

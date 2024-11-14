@@ -12,7 +12,13 @@ groups:
           mode: push
           branch: v2
         config:
-          client_class_name: Cartesia
+          client:
+            class_name: BaseCartesia
+            filename: base_client.py
+            exported_class_name: Cartesia
+            exported_filename: client.py
+          extra_dependencies:
+            websockets: "12.0"
   js-sdk:
     generators:
       - name: fernapi/fern-typescript-node-sdk

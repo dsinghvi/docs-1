@@ -19,7 +19,7 @@ types:
     properties:
       id: VoiceId
       user_id:
-        type: string
+        type: optional<string>
         docs: |
           The ID of the user who owns the voice.
       is_public:
