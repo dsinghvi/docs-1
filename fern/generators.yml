@@ -22,7 +22,7 @@ groups:
         output:
           location: npm
           package-name: "@cartesia/cartesia-js"
-          # token: ${NPM_TOKEN}
+          token: ${NPM_TOKEN}
         github:
           repository: cartesia-ai/cartesia-js
           mode: push
