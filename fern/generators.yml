@@ -8,13 +8,19 @@ groups:
         output:
           location: pypi
           package-name: "cartesia"
-          # token: ${PYPI_TOKEN}
+          token: ${PYPI_TOKEN}
         github:
           repository: cartesia-ai/cartesia-python
           mode: push
           branch: v2
         config:
-          client_class_name: Cartesia
+          client:
+            class_name: BaseCartesia
+            filename: base_client.py
+            exported_class_name: Cartesia
+            exported_filename: client.py
+          extra_dependencies:
+            websockets: "12.0"
   js-sdk:
     generators:
       - name: fernapi/fern-typescript-node-sdk
@@ -32,5 +38,9 @@ groups:
           allowCustomFetcher: true
           skipResponseValidation: true
           includeApiReference: true
-          noSerdeLayer: true
+          extraDependencies:
+            emittery: "^1.0.3"
+            human-id: "^4.1.1"
+          extraDevDependencies: 
+            "@types/ws": "^8.5.13"
         smart-casing: true
