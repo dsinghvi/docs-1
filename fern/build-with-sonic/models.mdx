@@ -1,19 +1,78 @@
 ---
 title: Models
-subtitle: Learn about the Sonic variants available on Cartesia
 ---
 
-## Sonic English
+Cartesia provides a family of state-of-the-art state space machine models, including our highly-accurate, low-latency Sonic model for text-to-speech.
 
-_Sonic English_ is our latest English text-to-speech model. It demonstrates strong overall capabilities and is optimized for efficiency to achieve low latency.
+## Overview
 
-**Model ID:** `sonic-english`
+<div class="fern-table-root not-prose">
+	<table class="fern-table">
+		<thead>
+			<tr>
+				<th>Model ID</th>
+				<th>Description</th>
+				<th>Available languages</th>
+			</tr>
+		</thead>
+		<tr>
+			<td><code>sonic</code></td>
+			<td>Stable alias, currently points to <code style="white-space: nowrap">sonic-2024-12-12</code>.</td>
+			<td>en, fr, de, es, pt, zh, ja, hi, it, ko, nl, pl, ru, sv, tr</td>
+		</tr>
+		<tr>
+			<td><pre><code>sonic-preview</code></pre></td>
+			<td>Preview model.</td>
+			<td>en</td>
+		</tr>
+		<tr>
+			<td><pre><code>sonic-2024-12-12</code></pre></td>
+			<td>December update.</td>
+			<td>en, fr, de, es, pt, zh, ja, hi, it, ko, nl, pl, ru, sv, tr</td>
+		</tr>
+		<tr>
+			<td><pre><code>sonic-2024-10-19</code></pre></td>
+			<td>October update.</td>
+			<td>en, fr, de, es, pt, zh, ja, hi, it, ko, nl, pl, ru, sv, tr</td>
+		</tr>
+	</table>
+</div>
 
-**Release date:** May 2024
 
-**Last updated:** Aug 2024
+### Continuous updates
 
-**Supported languages:** English
+`sonic` and `sonic-preview` are aliases for the latest stable and preview models. We recommend using these for prototyping and development, then switching to a dated model for production use cases to ensure stability.
+
+## Sonic
+
+_Sonic_ is our flagship text-to-speech model. It produces high-accuracy, expressive speech, and is optimized for efficiency to achieve low latency.
+
+- **Model alias:** `sonic`
+- **Release date:** Dec 2024
+- **Latest version:** `sonic-2024-12-12`
+
+To learn how to use Sonic, see [Make an API request](/get-started/make-an-api-request).
+
+
+## Sonic Preview
+
+Sonic Preview is our latest preview snapshot. It is updated regularly, and may not be as stable as `sonic`. Use `sonic-preview` to see the latest features and research direction from Cartesia.
+
+The latest version of `sonic-preview` demonstrates superior transcript following, especially for dates, long numbers, and phone numbers.
+
+- **Model alias:** `sonic-preview`
+- **Supported languages:** en
+
+## Legacy Models
+
+### Sonic English (deprecated)
+
+_Sonic English_ is our original English text-to-speech model. While it is still supported in our API, we recommend using the `sonic` model instead.
+
+- **Model ID:** `sonic-english`
+- **Release date:** May 2024
+- **Latest version:** Oct 2024
+- **Supported languages:** English
 
 **Capabilities:**
 
@@ -26,16 +85,13 @@ _Sonic English_ is our latest English text-to-speech model. It demonstrates stro
 * Audio generations may occasionally sound fast.
 * Some long numbers and phone numbers may sound rushed as well.
 
+### Sonic Multilingual (deprecated)
 
-## Sonic Multilingual [Alpha]
+_Sonic Multilingual_ was the first multilingual Sonic variant, with improved transcript following and low latency.  While it is still supported in our API, we recommend using the `sonic` model instead.
 
-_Sonic Multilingual_ is the first multilingual Sonic variant, demonstrating great transcript following and low latency.
-
-**Model ID:** `sonic-multilingual`
-
-**Release date:** Jun 2024
-
-**Last updated:** September 2024
+- **Model ID:** `sonic-multilingual`
+- **Release date:** Jun 2024
+- **Latest version:** Sept 2024
 
 **Supported languages:**
 
