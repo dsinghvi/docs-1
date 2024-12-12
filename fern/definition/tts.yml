@@ -57,7 +57,7 @@ service:
       method: POST
       display-name: Text to Speech (SSE)
       request: TTSRequest
-      response-stream: 
+      response-stream:
         type: WebSocketResponse
         format: sse
 
@@ -222,7 +222,7 @@ types:
     extends: WebSocketBaseResponse
     properties:
       word_timestamps: optional<WordTimestamps>
-  
+
   WebSocketTTSOutput:
     properties:
       word_timestamps: optional<WordTimestamps>
@@ -371,7 +371,10 @@ types:
   MP3OutputFormat:
     properties:
       sample_rate: integer
-      bit_rate: integer
+      bit_rate:
+        type: integer
+        docs: |
+          The bit rate of the audio in bits per second. Supported bit rates are 32000, 64000, 96000, 128000, 192000.
 
   TTSRequestVoiceSpecifier:
     discriminated: false
